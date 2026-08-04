@@ -71,6 +71,24 @@ async function checarOdds(eventId: string): Promise<void> {
     if (semNome.length > 0) falha(`${semNome.length} casas sem nome — settings.bookmakers mudou`);
     else ok('nomes das casas resolvidos');
 
+    // Conferencia de geolocalizacao. Importa ao rodar fora do Brasil (Railway
+    // e afins): se o geo vier errado, o numero de casas continua parecendo
+    // saudavel, mas sao casas de outro pais e voce nao tem conta em nenhuma.
+    const nomes = odds.casas.map((c) => c.nome);
+    console.log(`      casas: ${nomes.slice(0, 8).join(', ')}${nomes.length > 8 ? ', ...' : ''}`);
+
+    const brasileiras = nomes.filter((n) =>
+      /\.br\b|bet365|betano|superbet|estrela|betnacional|kto|novibet|betesporte|galera|bateu/i.test(n),
+    );
+    if (brasileiras.length >= 3) {
+      ok(`geo BR confirmado (${brasileiras.length} casas brasileiras reconhecidas)`);
+    } else {
+      falha(
+        `geo suspeito: so ${brasileiras.length} casas brasileiras reconhecidas — ` +
+          'rodando fora do Brasil com geoIpCode errado?',
+      );
+    }
+
     const linha = bestLine(odds.casas);
     if (linha) {
       ok(
