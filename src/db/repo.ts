@@ -2,8 +2,8 @@
  * Acesso ao Supabase. Todas as escritas do robo passam por aqui.
  *
  * Regra de ouro deste arquivo: as colunas curadas por voce
- * (`competitions.enabled`, `bookmakers.has_account`, `bookmakers.max_stake`)
- * NUNCA sao tocadas por upsert automatico.
+ * (`competitions.enabled`, `bookmakers.has_account`, `bookmakers.max_stake`,
+ * `bookmakers.url`) NUNCA sao tocadas por upsert automatico.
  */
 
 import { RETENCAO_DIAS, SETTINGS_PADRAO, settingsSchema, type Settings } from '../config.js';
@@ -36,26 +36,51 @@ export async function gravarSetting(key: keyof Settings, value: unknown): Promis
   if (error) throw new Error(`gravando setting ${key}: ${error.message}`);
 }
 
+// ------------------------------------------------- contrato de curadoria
+
+/**
+ * Colunas que so voce edita. Nenhum upsert automatico pode escreve-las.
+ *
+ * Existem como dado, e nao so como comentario, porque ha teste de regressao
+ * comparando as chaves montadas abaixo contra estas listas: o jeito de apagar
+ * sua curadoria em silencio e alguem acrescentar um campo ao upsert sem pensar,
+ * e comentario nenhum impede isso.
+ */
+export const COLUNAS_CURADAS = {
+  competitions: ['enabled'],
+  bookmakers: ['has_account', 'max_stake', 'note', 'url'],
+} as const;
+
+/** Exatamente o que o sync tem permissao de escrever. */
+export const COLUNAS_DO_SYNC = {
+  competitions: ['id', 'name', 'url_path', 'country', 'last_seen_at'],
+  bookmakers: ['id', 'name', 'last_seen_at'],
+} as const;
+
 // ------------------------------------------------------------ competicoes
 
 /**
- * Insere competicoes novas e atualiza nome/last_seen das existentes.
+ * Linhas do upsert de competicoes. Pura de proposito: e o que o teste inspeciona.
  *
- * `enabled` fica deliberadamente FORA do update: e a sua curadoria, e um sync
- * que a sobrescrevesse apagaria a configuracao inteira sem aviso.
+ * `enabled` fica deliberadamente de fora — um sync que a sobrescrevesse
+ * apagaria a configuracao inteira sem aviso.
  */
-export async function upsertCompeticoes(ligas: Liga[]): Promise<void> {
-  if (ligas.length === 0) return;
-  const linhas = ligas.map((l) => ({
+export function linhasDeCompeticoes(ligas: Liga[], agora = new Date()) {
+  return ligas.map((l) => ({
     id: l.id,
     name: l.nome,
     url_path: l.urlPath,
     country: l.pais,
-    last_seen_at: new Date().toISOString(),
+    last_seen_at: agora.toISOString(),
   }));
+}
+
+/** Insere competicoes novas e atualiza nome/last_seen das existentes. */
+export async function upsertCompeticoes(ligas: Liga[]): Promise<void> {
+  if (ligas.length === 0) return;
   const { error } = await db()
     .from('competitions')
-    .upsert(linhas, { onConflict: 'id', ignoreDuplicates: false });
+    .upsert(linhasDeCompeticoes(ligas), { onConflict: 'id', ignoreDuplicates: false });
   if (error) throw new Error(`upsert de competicoes: ${error.message}`);
 }
 
@@ -76,16 +101,36 @@ export async function contarCompeticoes(): Promise<{ total: number; habilitadas:
 
 // --------------------------------------------------------------- casas
 
-/** Mesma logica do upsert de ligas: `has_account` e `max_stake` sao seus. */
-export async function upsertCasas(casas: Array<{ id: number; nome: string }>): Promise<void> {
-  if (casas.length === 0) return;
-  const linhas = casas.map((c) => ({
+/**
+ * Linhas do upsert de casas. Pura de proposito: e o que o teste inspeciona.
+ *
+ * Mesma logica do upsert de ligas: `has_account`, `max_stake`, `note` e `url`
+ * sao seus e ficam de fora.
+ */
+export function linhasDeCasas(casas: Array<{ id: number; nome: string }>, agora = new Date()) {
+  return casas.map((c) => ({
     id: c.id,
     name: c.nome,
-    last_seen_at: new Date().toISOString(),
+    last_seen_at: agora.toISOString(),
   }));
-  const { error } = await db().from('bookmakers').upsert(linhas, { onConflict: 'id' });
+}
+
+export async function upsertCasas(casas: Array<{ id: number; nome: string }>): Promise<void> {
+  if (casas.length === 0) return;
+  const { error } = await db().from('bookmakers').upsert(linhasDeCasas(casas), { onConflict: 'id' });
   if (error) throw new Error(`upsert de casas: ${error.message}`);
+}
+
+/**
+ * id da casa -> link, para o alerta virar clicavel no celular.
+ *
+ * Coluna curada por voce: o Flashscore nao manda URL nenhuma. Casa sem link
+ * cadastrado simplesmente aparece como texto.
+ */
+export async function urlsDasCasas(): Promise<Map<number, string>> {
+  const { data, error } = await db().from('bookmakers').select('id, url').not('url', 'is', null);
+  if (error) throw new Error(`lendo urls das casas: ${error.message}`);
+  return new Map((data ?? []).map((c) => [c.id as number, c.url as string]));
 }
 
 export async function casasComConta(): Promise<Set<number>> {

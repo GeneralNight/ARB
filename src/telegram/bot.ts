@@ -77,7 +77,19 @@ const escapar = (s: string) =>
 
 const ROTULO = { casa: 'Casa', empate: 'Empate', fora: 'Fora' } as const;
 
-export function formatarAlerta(op: Oportunidade): string {
+/**
+ * Nome da casa clicavel, quando ha link cadastrado em `bookmakers.url`.
+ *
+ * So aceita http(s): um href estranho faz o Telegram recusar a mensagem
+ * INTEIRA, e perder o alerta por causa do link seria trocar o essencial pelo
+ * cosmetico.
+ */
+function nomeDaCasa(nome: string, url: string | undefined): string {
+  if (!url || !/^https?:\/\//i.test(url)) return escapar(nome);
+  return `<a href="${escapar(url)}">${escapar(nome)}</a>`;
+}
+
+export function formatarAlerta(op: Oportunidade, urls?: Map<number, string>): string {
   const { jogo, aposta, linha } = op;
   const arb = aposta.isArb;
 
@@ -88,7 +100,7 @@ export function formatarAlerta(op: Oportunidade): string {
   const pernas = aposta.pernas
     .map(
       (p) =>
-        `${ROTULO[p.resultado].padEnd(6)} <b>${escapar(p.nome)}</b> @${p.odd.toFixed(2)}\n` +
+        `${ROTULO[p.resultado].padEnd(6)} <b>${nomeDaCasa(p.nome, urls?.get(p.bookmakerId))}</b> @${p.odd.toFixed(2)}\n` +
         `        apostar <b>${brl(p.stake)}</b> → retorno ${brl(p.retorno)}`,
     )
     .join('\n');
@@ -115,7 +127,16 @@ export function formatarAlerta(op: Oportunidade): string {
 }
 
 export async function enviarAlerta(op: Oportunidade, alertaId: number): Promise<void> {
-  await enviar(formatarAlerta(op), [
+  // Link e conveniencia: se a consulta falhar, o alerta sai mesmo assim, so
+  // que sem links. Arbitragem dura minutos — nao se perde uma por causa disso.
+  let urls = new Map<number, string>();
+  try {
+    urls = await repo.urlsDasCasas();
+  } catch (err) {
+    console.error('   nao consegui ler os links das casas:', err);
+  }
+
+  await enviar(formatarAlerta(op, urls), [
     [
       { text: '✅ Odd estava la', callback_data: `ok:${alertaId}` },
       { text: '❌ Ja tinha sumido', callback_data: `no:${alertaId}` },

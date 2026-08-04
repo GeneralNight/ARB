@@ -75,6 +75,10 @@ e valor por `÷`. `ZA` nome da liga · `ZEE` id · `ZL` path · `AA` id do jogo 
 - Nos 3 itens: id do mandante → Casa · id do visitante → Fora ·
   **`eventParticipantId === null` → Empate**.
 - Respeitar `active`; odd suspensa não é apostável.
+- **Não há URL de casa em lugar nenhum do payload.** `bookmaker` traz só
+  `{id, name}` + cores de bônus; `EventOdds` não tem link. O site monta o link
+  no cliente, por redirecionador de afiliado. Daí `bookmakers.url` ser curada
+  à mão — não procurar de novo no JSON.
 
 ### Quando quebrar
 
@@ -132,12 +136,18 @@ nesses códigos — insistir em rate limit é o que vira bloqueio de IP.
 Estas colunas são do usuário e **nenhum upsert automático pode tocá-las**:
 
 - `competitions.enabled`
-- `bookmakers.has_account`, `bookmakers.max_stake`, `bookmakers.note`
+- `bookmakers.has_account`, `bookmakers.max_stake`, `bookmakers.note`,
+  `bookmakers.url`
 
 O upsert de competições atualiza só `name`/`url_path`/`last_seen_at`. Um sync que
-sobrescrevesse `enabled` apagaria a configuração inteira em silêncio. **Há teste
-de regressão para isso** (rodar sync 2× e confirmar que `enabled` sobreviveu) —
-se mexer no upsert, rode.
+sobrescrevesse `enabled` apagaria a configuração inteira em silêncio.
+
+O contrato é **dado, não comentário**: `COLUNAS_CURADAS` e `COLUNAS_DO_SYNC` em
+`src/db/repo.ts`, com as linhas montadas por `linhasDeCompeticoes`/`linhasDeCasas`
+(puras, sem I/O, justamente para poderem ser inspecionadas). `src/db/repo.test.ts`
+confere as chaves e simula o sync rodando 2× sobre base curada. Verificado que
+falha de verdade: acrescentar `url` ao upsert derruba 3 testes. Se mexer no
+upsert, rode.
 
 O usuário gerencia ligas e casas **pelo painel do Supabase (SQL)**, não pelo
 Telegram — foi escolha dele. O bot não tem comandos de curadoria.
@@ -191,7 +201,7 @@ Projeto Supabase **ARB**: `fkahtqqlznhrwkenenve` (org Ortolani, us-west-2).
 | chave | valor | o que é |
 |---|---|---|
 | `banca` | 1000 | total distribuído entre as 3 apostas |
-| `lucroMinimoPct` | 0 | limiar do alerta, pós-arredondamento |
+| `lucroMinimoPct` | -1 | limiar do alerta, pós-arredondamento (modo calibração) |
 | `incrementoStake` | 1 | arredondamento do stake em R$ |
 | `janelaDias` | 1 | 0 = só hoje · máx 7 |
 | `minutosAntesDoInicio` | 5 | para de varrer N min antes do apito |
@@ -202,7 +212,16 @@ Projeto Supabase **ARB**: `fkahtqqlznhrwkenenve` (org Ortolani, us-west-2).
 UCL/UEL/UECL, Premier League, LaLiga, Bundesliga I e II, Eredivisie, MLS,
 Ligue 1, Superliga DIN, Eliteserien, Allsvenskan, Superliga SUI, Serie A,
 Liga Portugal, Brasileirão, Premiership ESC, Bundesliga AUT, Jupiler).
-25 casas conhecidas, nenhuma marcada com `has_account`.
+25 casas conhecidas, nenhuma marcada com `has_account`. Todas com `url`
+preenchida a partir da planilha oficial da SPA/MF — casa autorizada é obrigada a
+usar `.bet.br` (IN SPA/MF nº 11/2024), então domínio `.com` de casa brasileira é
+redirect ou clone. O alerta do Telegram usa esse link.
+
+Rodando em **Railway**. Settings e curadoria valem no ciclo seguinte sem
+restart; só variáveis de ambiente e constantes de código (`REDE`,
+`RETENCAO_DIAS`, `INTERVALO_CICLO_MS`) exigem redeploy. **Não rodar
+`test:telegram` local com o Railway de pé**: dois pollers no mesmo token brigam
+por `getUpdates` e o Telegram devolve 409.
 
 **Baseline empírico**: numa amostra com 24 casas, o juice individual ia de 4,9%
 a 10,3%; a melhor linha combinada fechou em 1,89% — perto, mas sem arbitragem.
