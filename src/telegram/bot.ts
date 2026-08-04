@@ -89,13 +89,23 @@ function nomeDaCasa(nome: string, url: string | undefined): string {
   return `<a href="${escapar(url)}">${escapar(nome)}</a>`;
 }
 
-export function formatarAlerta(op: Oportunidade, urls?: Map<number, string>): string {
+export function formatarAlerta(
+  op: Oportunidade,
+  urls?: Map<number, string>,
+  roiAnterior?: number,
+): string {
   const { jogo, aposta, linha } = op;
   const arb = aposta.isArb;
 
-  const cabecalho = arb
-    ? `🟢 <b>ARBITRAGEM ${aposta.roiPct.toFixed(2)}%</b>`
-    : `🟡 <b>Quase-arb ${aposta.roiPct.toFixed(2)}%</b> (calibracao)`;
+  // Sem esta linha, o segundo alerta do mesmo trio parece mensagem repetida e
+  // voce ignora justamente a que melhorou.
+  const cabecalho =
+    (arb
+      ? `🟢 <b>ARBITRAGEM ${aposta.roiPct.toFixed(2)}%</b>`
+      : `🟡 <b>Quase-arb ${aposta.roiPct.toFixed(2)}%</b> (calibracao)`) +
+    (roiAnterior === undefined
+      ? ''
+      : `\n🔁 mesmo trio de casas, melhorou de ${roiAnterior.toFixed(2)}%`);
 
   const pernas = aposta.pernas
     .map(
@@ -126,7 +136,11 @@ export function formatarAlerta(op: Oportunidade, urls?: Map<number, string>): st
   ].join('\n');
 }
 
-export async function enviarAlerta(op: Oportunidade, alertaId: number): Promise<void> {
+export async function enviarAlerta(
+  op: Oportunidade,
+  alertaId: number,
+  roiAnterior?: number,
+): Promise<void> {
   // Link e conveniencia: se a consulta falhar, o alerta sai mesmo assim, so
   // que sem links. Arbitragem dura minutos — nao se perde uma por causa disso.
   let urls = new Map<number, string>();
@@ -136,7 +150,7 @@ export async function enviarAlerta(op: Oportunidade, alertaId: number): Promise<
     console.error('   nao consegui ler os links das casas:', err);
   }
 
-  await enviar(formatarAlerta(op, urls), [
+  await enviar(formatarAlerta(op, urls, roiAnterior), [
     [
       { text: '✅ Odd estava la', callback_data: `ok:${alertaId}` },
       { text: '❌ Ja tinha sumido', callback_data: `no:${alertaId}` },

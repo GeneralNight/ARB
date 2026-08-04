@@ -7,7 +7,7 @@
  */
 
 import { RETENCAO_DIAS, SETTINGS_PADRAO, settingsSchema, type Settings } from '../config.js';
-import type { Aposta, MelhorLinha } from '../arb/calc.js';
+import type { AlertaAnterior, Aposta, MelhorLinha } from '../arb/calc.js';
 import type { Jogo, Liga } from '../flashscore/feed.js';
 import { db } from './client.js';
 
@@ -206,8 +206,12 @@ export interface AlertaGravado {
 }
 
 /**
- * Grava o alerta. `dedupe_key` tem UNIQUE, entao o mesmo trio de casas no
- * mesmo jogo nao gera alerta repetido — a insercao duplicada e ignorada.
+ * Grava o alerta. `dedupeKey` aqui e `familia@n` — uma linha por mensagem
+ * enviada, para que cada uma tenha seu proprio botao de feedback.
+ *
+ * O UNIQUE continua sendo a rede de seguranca contra a mesma mensagem sair
+ * duas vezes (reinicio no meio do ciclo, por exemplo). Quem decide se o trio
+ * merece falar de novo e `mereceRealerta`, antes de chegar aqui.
  */
 export async function gravarAlerta(
   matchId: string,
@@ -236,6 +240,27 @@ export async function gravarAlerta(
   if (error) throw new Error(`gravando alerta: ${error.message}`);
   const linha = data?.[0];
   return linha ? { id: linha.id as number, novo: true } : null;
+}
+
+/**
+ * Alertas ja emitidos para este jogo, para decidir se o trio atual e novidade.
+ *
+ * Le o jogo inteiro em vez de filtrar a familia no SQL porque a familia mora
+ * dentro da chave: as linhas antigas (anteriores ao sufixo `@n`) sao a propria
+ * familia, e um `like` teria que tratar os dois formatos. Sao poucas linhas por
+ * jogo — a comparacao sai de graca em JS, com a mesma funcao pura do calculo.
+ */
+export async function alertasDoJogo(matchId: string): Promise<AlertaAnterior[]> {
+  const { data, error } = await db()
+    .from('arb_alerts')
+    .select('dedupe_key, roi_pct, profit')
+    .eq('match_id', matchId);
+  if (error) throw new Error(`lendo alertas do jogo: ${error.message}`);
+  return (data ?? []).map((a) => ({
+    chave: a.dedupe_key as string,
+    roiPct: Number(a.roi_pct),
+    isArb: Number(a.profit) > 0,
+  }));
 }
 
 export async function marcarNotificado(alertaId: number): Promise<void> {

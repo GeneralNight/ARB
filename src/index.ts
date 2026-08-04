@@ -5,6 +5,7 @@
  * inviabiliza rodar isso numa funcao de nuvem com cota de banda.
  */
 
+import { anteriorDaFamilia, mereceRealerta } from './arb/calc.js';
 import { varrer } from './arb/scanner.js';
 import { estaBloqueado, segundosAteDesbloquear } from './flashscore/client.js';
 import * as repo from './db/repo.js';
@@ -53,10 +54,14 @@ async function ciclo(n: number): Promise<void> {
   }
 
   for (const op of r.oportunidades) {
-    // O UNIQUE em dedupe_key faz o trabalho: alerta repetido nao volta.
+    // Um trio ja anunciado so volta a falar se melhorou de verdade — mas volta,
+    // porque quase-arb que virou arbitragem e a mensagem que paga o projeto.
+    const { melhor, quantos } = anteriorDaFamilia(op.chave, await repo.alertasDoJogo(op.jogo.id));
+    if (!mereceRealerta(melhor, op.aposta)) continue;
+
     const gravado = await repo.gravarAlerta(
       op.jogo.id,
-      op.chave,
+      `${op.chave}@${quantos}`,
       op.aposta,
       settings.banca,
       op.snapshot,
@@ -65,12 +70,13 @@ async function ciclo(n: number): Promise<void> {
 
     console.log(
       `   ${op.aposta.isArb ? 'ARB' : 'quase'} ${op.aposta.roiPct.toFixed(2)}% — ` +
-        `${op.jogo.mandante} x ${op.jogo.visitante}`,
+        `${op.jogo.mandante} x ${op.jogo.visitante}` +
+        (melhor ? ` (melhorou de ${melhor.roiPct.toFixed(2)}%)` : ''),
     );
 
     if (telegramConfigurado()) {
       try {
-        await enviarAlerta(op, gravado.id);
+        await enviarAlerta(op, gravado.id, melhor?.roiPct);
       } catch (err) {
         console.error('   falha ao enviar no Telegram:', err);
       }

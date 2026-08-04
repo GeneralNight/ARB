@@ -1,11 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import {
+  DEGRAU_REALERTA_PP,
+  anteriorDaFamilia,
   bestLine,
   dedupeKey,
   deveAlertar,
+  familiaDaChave,
   impliedSum,
+  mereceRealerta,
   montarAposta,
   roi,
+  type Aposta,
   type OddsCasa,
 } from './calc.js';
 import { intervaloMinutos } from './scanner.js';
@@ -175,6 +180,78 @@ describe('deveAlertar', () => {
     // Quase-arb de ~ -1,85%: silencioso em -1, visivel em -3.
     expect(deveAlertar(semArb, -1)).toBe(false);
     expect(deveAlertar(semArb, -3)).toBe(true);
+  });
+});
+
+describe('re-alerta do mesmo trio', () => {
+  // So roiPct e isArb importam para a decisao; o resto e enfeite.
+  const aposta = (roiPct: number, isArb = roiPct > 0): Aposta => ({
+    s: 1,
+    roiPct,
+    total: 1000,
+    pernas: [],
+    lucroPiorCaso: isArb ? 1 : -1,
+    isArb,
+  });
+  const antes = (chave: string, roiPct: number, isArb = roiPct > 0) => ({ chave, roiPct, isArb });
+
+  it('trio inedito sempre alerta', () => {
+    expect(mereceRealerta(null, aposta(-0.5))).toBe(true);
+  });
+
+  it('cala a oscilacao que nao muda nada', () => {
+    // Caso real de 04/08/2026: r9z6gEre alertou a -0,32% e ficou meia hora
+    // oscilando entre -0,32% e -0,10% no mesmo trio. Uma mensagem basta.
+    expect(mereceRealerta(antes('k@0', -0.32), aposta(-0.1))).toBe(false);
+  });
+
+  it('volta a falar quando o quase-arb vira arbitragem de verdade', () => {
+    // Melhora de so 0,37 p.p. — abaixo do degrau — mas cruzou para lucro real,
+    // que e a mensagem que o robo existe para mandar.
+    expect(0.05 - -0.32).toBeLessThan(DEGRAU_REALERTA_PP);
+    expect(mereceRealerta(antes('k@0', -0.32), aposta(0.05))).toBe(true);
+  });
+
+  it('volta a falar quando melhora um degrau inteiro', () => {
+    expect(mereceRealerta(antes('k@0', -1.0), aposta(-0.4))).toBe(true);
+    expect(mereceRealerta(antes('k@0', -1.0), aposta(-0.6))).toBe(false);
+  });
+
+  it('nunca repete por piora', () => {
+    expect(mereceRealerta(antes('k@0', 0.5), aposta(0.1))).toBe(false);
+    expect(mereceRealerta(antes('k@0', 0.5), aposta(-2))).toBe(false);
+  });
+
+  it('compara contra o MELHOR ja enviado, nao contra o ultimo', () => {
+    // Senao um vai-e-volta -0,1 → -1,0 → -0,1 mandaria mensagem a cada volta.
+    const historico = [antes('jogo#trio@0', -0.1), antes('jogo#trio@1', -1.0)];
+    const { melhor, quantos } = anteriorDaFamilia('jogo#trio', historico);
+    expect(melhor?.roiPct).toBe(-0.1);
+    expect(quantos).toBe(2);
+    expect(mereceRealerta(melhor, aposta(-0.1))).toBe(false);
+  });
+
+  it('separa familias e entende chave antiga sem sufixo', () => {
+    const historico = [
+      antes('jogo#trioA', -0.3), // linha gravada antes do sufixo @n existir
+      antes('jogo#trioB@0', 2.0),
+    ];
+    expect(familiaDaChave('jogo#trioA')).toBe('jogo#trioA');
+    expect(anteriorDaFamilia('jogo#trioA', historico).melhor?.roiPct).toBe(-0.3);
+    expect(anteriorDaFamilia('jogo#trioC', historico).melhor).toBeNull();
+    expect(anteriorDaFamilia('jogo#trioC', historico).quantos).toBe(0);
+  });
+
+  it('a chave gravada deriva da familia e nao colide entre re-alertas', () => {
+    const linha = bestLine([
+      book(1, 2.6, 3.0, 3.0),
+      book(2, 2.4, 3.6, 3.0),
+      book(3, 2.4, 3.0, 3.4),
+    ])!;
+    const familia = dedupeKey('jogo1', montarAposta(linha, 1000, 1).pernas);
+    const chaves = [0, 1, 2].map((n) => `${familia}@${n}`);
+    expect(new Set(chaves).size).toBe(3);
+    for (const c of chaves) expect(familiaDaChave(c)).toBe(familia);
   });
 });
 

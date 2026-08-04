@@ -186,10 +186,64 @@ export function deveAlertar(aposta: Aposta, lucroMinimoPct: number): boolean {
   return aposta.roiPct >= lucroMinimoPct;
 }
 
-/** Chave estavel de deduplicacao: mesmo jogo + mesmo trio de casas. */
+/**
+ * Chave da FAMILIA de alertas: mesmo jogo + mesmo trio de casas.
+ *
+ * Nao e a chave gravada — `arb_alerts.dedupe_key` leva um sufixo `@n` para que
+ * cada mensagem enviada tenha sua propria linha (e, portanto, seu proprio
+ * botao de feedback). A familia e o que responde "ja falei deste trio?".
+ */
 export function dedupeKey(matchId: string, pernas: Perna[]): string {
   const trio = pernas.map((p) => `${p.resultado}:${p.bookmakerId}`).join('|');
   return `${matchId}#${trio}`;
+}
+
+/** Familia de uma chave gravada. Linhas antigas, sem `@`, sao a propria familia. */
+export function familiaDaChave(chave: string): string {
+  return chave.split('@')[0]!;
+}
+
+/**
+ * Melhora minima, em pontos percentuais de ROI, para repetir um alerta.
+ *
+ * Odds oscilam de decimo em decimo o tempo todo; sem um degrau, o mesmo trio
+ * viraria uma mensagem a cada varredura e voce pararia de olhar o celular —
+ * que e exatamente o custo de um alerta que nao significa nada.
+ */
+export const DEGRAU_REALERTA_PP = 0.5;
+
+export interface AlertaAnterior {
+  chave: string;
+  roiPct: number;
+  isArb: boolean;
+}
+
+/** Melhor alerta ja emitido para esta familia, e quantos ja foram. */
+export function anteriorDaFamilia(
+  familia: string,
+  alertas: AlertaAnterior[],
+): { melhor: AlertaAnterior | null; quantos: number } {
+  const daFamilia = alertas.filter((a) => familiaDaChave(a.chave) === familia);
+  const melhor = daFamilia.reduce<AlertaAnterior | null>(
+    (m, a) => (m === null || a.roiPct > m.roiPct ? a : m),
+    null,
+  );
+  return { melhor, quantos: daFamilia.length };
+}
+
+/**
+ * Ja alertamos este trio neste jogo. Vale falar de novo?
+ *
+ * O UNIQUE em `dedupe_key` sozinho calava para sempre: um trio anunciado como
+ * quase-arb a -0,3% e que meia hora depois virava arbitragem de verdade nunca
+ * chegava ao Telegram, porque a chave era a mesma. Silencio nesse caso e o
+ * unico erro caro deste arquivo — perder a oportunidade que o robo existe para
+ * achar. Dai as duas portas: cruzar para lucro real, ou melhorar um degrau.
+ */
+export function mereceRealerta(anterior: AlertaAnterior | null, atual: Aposta): boolean {
+  if (anterior === null) return true;
+  if (atual.isArb && !anterior.isArb) return true;
+  return atual.roiPct - anterior.roiPct >= DEGRAU_REALERTA_PP;
 }
 
 function round2(n: number): number {

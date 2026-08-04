@@ -112,6 +112,22 @@ quando há colisão.
 limiar 0 o usuário pode passar dias em silêncio e não distinguir "não apareceu"
 de "quebrou". Negativo = modo calibração, mostra quase-arbs (marcados 🟡).
 
+**Dedupe é por família de alerta, não por chave imutável.** `dedupeKey` monta a
+família (jogo + trio de casas); `arb_alerts.dedupe_key` grava `família@n`, uma
+linha **por mensagem enviada**, para que cada uma tenha seu próprio botão de
+feedback. Quem decide repetir é `mereceRealerta`, contra o **melhor** alerta já
+enviado daquela família — não contra o último, senão um vai-e-volta mandaria
+mensagem a cada volta. Duas portas: cruzou para arbitragem real (`isArb`), ou
+melhorou `DEGRAU_REALERTA_PP` = 0,5 p.p. de ROI.
+
+Motivo: com o `UNIQUE` calando para sempre, em 04/08/2026 o jogo `r9z6gEre`
+alertou a −0,32%, e nos 40 min seguintes ficou oscilando entre −0,32% e −0,10%
+**no mesmo trio**, em silêncio. Nesse caso não custou dinheiro (nenhuma passou
+de 🟡), mas o mesmo silêncio engoliria um quase-arb que virasse arbitragem de
+verdade — a única mensagem que o robô existe para mandar. **Silêncio longo do
+bot costuma ser dedupe, não defeito**: confira `line_scans` antes de suspeitar
+do Telegram.
+
 **Cadência escalonada** (`intervaloMinutos`): >24h → 2h · 6-24h → 30min ·
 2-6h → 10min · <2h → 2min. A faixa de 24h+ é o que torna janela larga barata:
 13× mais jogos custam só 2,5× mais banda.
