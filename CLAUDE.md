@@ -217,7 +217,7 @@ Projeto Supabase **ARB**: `fkahtqqlznhrwkenenve` (org Ortolani, us-west-2).
 | chave | valor | o que é |
 |---|---|---|
 | `banca` | 1000 | total distribuído entre as 3 apostas |
-| `lucroMinimoPct` | -1 | limiar do alerta, pós-arredondamento (modo calibração) |
+| `lucroMinimoPct` | 0 | limiar do alerta, pós-arredondamento (só arbitragem real) |
 | `incrementoStake` | 1 | arredondamento do stake em R$ |
 | `janelaDias` | 1 | 0 = só hoje · máx 7 |
 | `minutosAntesDoInicio` | 5 | para de varrer N min antes do apito |
