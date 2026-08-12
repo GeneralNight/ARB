@@ -129,6 +129,8 @@ export async function varrerDireto(opcoes: {
     comOdds,
     oportunidades,
     linhas,
+    // Odds cruas por casa: e o que o modo `ambos` compara com o Flashscore.
+    oddsPorJogo: coleta.porJogo,
     erros: coleta.casasComFalha.length,
     adiados: 0,
     bloqueado: hostsBloqueados().length > 0,

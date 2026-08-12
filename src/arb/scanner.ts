@@ -29,6 +29,14 @@ export interface ResultadoVarredura {
   comOdds: number;
   oportunidades: Oportunidade[];
   linhas: Array<{ jogo: Jogo; linha: MelhorLinha }>;
+  /**
+   * Odds por casa, por jogo — so para o modo `ambos` comparar as duas fontes.
+   *
+   * Campo de saida a mais, sem efeito nenhum sobre a varredura. Existe porque
+   * estes bytes JA foram baixados aqui (~900 KB por jogo): recalcula-los do
+   * lado do sistema direto dobraria a banda do ciclo so para comparar.
+   */
+  oddsPorJogo: Map<string, OddsCasa[]>;
   erros: number;
   /** Vencidos que ficaram para o proximo ciclo por causa do teto. */
   adiados: number;
@@ -121,6 +129,7 @@ export async function varrer(opcoes: OpcoesVarredura): Promise<ResultadoVarredur
   // As mesmas casas aparecem em todos os jogos: junta tudo e grava uma vez so
   // no fim, em vez de um upsert de 24 linhas por jogo varrido.
   const casasVistas = new Map<number, string>();
+  const oddsPorJogo = new Map<string, OddsCasa[]>();
   let comOdds = 0;
   let erros = 0;
 
@@ -133,6 +142,7 @@ export async function varrer(opcoes: OpcoesVarredura): Promise<ResultadoVarredur
     if (!odds || odds.casas.length === 0) continue;
 
     for (const c of odds.casas) casasVistas.set(c.bookmakerId, c.nome);
+    oddsPorJogo.set(jogo.id, odds.casas);
 
     const elegiveis = contas ? odds.casas.filter((c) => contas.has(c.bookmakerId)) : odds.casas;
     const linha = bestLine(elegiveis);
@@ -170,6 +180,7 @@ export async function varrer(opcoes: OpcoesVarredura): Promise<ResultadoVarredur
     comOdds,
     oportunidades,
     linhas,
+    oddsPorJogo,
     erros,
     adiados: vencidos.length - aVarrer.length,
     bloqueado: estaBloqueado(),

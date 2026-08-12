@@ -361,12 +361,54 @@ export async function gravarLineScan(
   if (error) throw new Error(`gravando line_scan: ${error.message}`);
 }
 
+/**
+ * Divergencia entre as duas fontes (modo `ambos`). So o que de fato divergiu.
+ *
+ * Erro aqui e engolido de proposito: isto e medicao, nao operacao. Falhar em
+ * gravar diagnostico nao pode derrubar um ciclo que estava alertando bem.
+ */
+export async function gravarDivergencias(
+  linhas: Array<{
+    matchId: string;
+    bookmakerId: number;
+    fs: { casa: number; empate: number; fora: number };
+    dir: { casa: number; empate: number; fora: number };
+  }>,
+): Promise<number> {
+  if (linhas.length === 0) return 0;
+  const { error } = await db()
+    .from('odds_divergencia')
+    .insert(
+      linhas.map((l) => ({
+        match_id: l.matchId,
+        bookmaker_id: l.bookmakerId,
+        fs_casa: l.fs.casa,
+        fs_empate: l.fs.empate,
+        fs_fora: l.fs.fora,
+        dir_casa: l.dir.casa,
+        dir_empate: l.dir.empate,
+        dir_fora: l.dir.fora,
+      })),
+    );
+  if (error) {
+    console.error(`gravando divergencias: ${error.message}`);
+    return 0;
+  }
+  return linhas.length;
+}
+
 /** Mantem o banco dentro dos 500 MB do tier gratuito. arb_alerts nunca some. */
 export async function limparScansAntigos(): Promise<number> {
   const corte = new Date(Date.now() - RETENCAO_DIAS * 86_400_000).toISOString();
   const { data, error } = await db().from('line_scans').delete().lt('scanned_at', corte).select('id');
   if (error) throw new Error(`limpando line_scans: ${error.message}`);
-  return data?.length ?? 0;
+
+  // Mesma retencao: divergencia tambem e diagnostico, nao registro contabil.
+  // Sem isto o modo `ambos` cresceria sem teto no tier gratuito.
+  const div = await db().from('odds_divergencia').delete().lt('scanned_at', corte).select('id');
+  if (div.error) console.error(`limpando odds_divergencia: ${div.error.message}`);
+
+  return (data?.length ?? 0) + (div.data?.length ?? 0);
 }
 
 // ------------------------------------------------------------ arb_alerts

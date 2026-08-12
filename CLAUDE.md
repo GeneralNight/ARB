@@ -35,6 +35,7 @@ npm run sondar            # classifica o acesso das 27 casas → docs/casas-sond
 npm run scan:direto       # varredura única pelo pipeline direto (sem Telegram)
 npm run comparar          # Flashscore × odd direta, lado a lado
 npm run comparar -- <id>  # idem, num jogo só
+npm run divergencia       # roda as 2 fontes e grava a diferença (--seco não grava)
 ```
 
 ---
@@ -337,10 +338,34 @@ TLS/HTTP2.
 `scan:direto`: 12 jogos com odds, quase todos com as 10 casas, margens de 5,3% a
 8,5% — nenhuma arbitragem, coerente com o baseline.
 
-**Divergência medida Flashscore × Superbet direta**: 18 jogos, 54 pernas,
-diferença média **0,000**, pior desvio **0,0%** — depois de corrigir a inversão
-mandante/visitante. Ou seja, o "não bate com o site" era o bug de rótulo, não
-atraso do agregador. O modo `ambos` existe para continuar medindo isso.
+### O que a divergência medida revelou
+
+Depois de corrigir a inversão, `npm run divergencia` mediu 10 casas em 12 jogos
+(306 pernas): **33 divergências, todas ≤ 0,6%**, e todas do mesmo tipo —
+
+| Flashscore | direto | |
+|---|---|---|
+| 1,16 | 1,1667 | arredondar daria 1,17 |
+| 1,6471 → 1,64 | 1,6471 | arredondar daria 1,65 |
+| 2,4286 → 2,42 | 2,4286 | arredondar daria 2,43 |
+
+**O Flashscore trunca a odd em 2 casas decimais, sempre para baixo.** Nunca
+arredonda — verificado em todos os casos medidos. Não é atraso do agregador.
+
+Isso importa mais do que parece. O viés é **sistemático e conservador**: a odd
+reportada é sempre ≤ a real, então `S` sai inflado e a margem parece pior do que
+é. O robô **nunca inventa** arbitragem por esse motivo — mas **perde** as
+marginais. Com o erro relativo chegando a ~0,9% na perna favorita (0,01 sobre
+1,16), e sendo a arbitragem 1X2 rara e magra (melhor linha do baseline: 1,89%;
+melhor caso já visto: −0,13%), essa mordida é da ordem de grandeza do que se
+está caçando.
+
+**Então o valor do sistema direto não é proteção contra atraso — é precisão.**
+Era uma hipótese diferente da que motivou o projeto, e ela se sustenta em dado.
+
+Nenhuma casa concentrou divergência fora do padrão das outras (3 a 4 cada), o
+que é o sinal de que nenhum adaptador está com bug — é exatamente para isso que
+a tabela serve como detector.
 
 387 competições no catálogo, **20 habilitadas** (lista definida pelo usuário:
 UCL/UEL/UECL, Premier League, LaLiga, Bundesliga I e II, Eredivisie, MLS,

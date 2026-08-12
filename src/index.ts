@@ -9,6 +9,7 @@ import { anteriorDaFamilia, mereceRealerta } from './arb/calc.js';
 import { varrer, type ResultadoVarredura } from './arb/scanner.js';
 import { estaBloqueado, segundosAteDesbloquear } from './flashscore/client.js';
 import { varrerDireto } from './odds/scanner-direto.js';
+import { compararTudo } from './odds/divergencia.js';
 import * as repo from './db/repo.js';
 import { enviarAlerta, processarUpdates, telegramConfigurado } from './telegram/bot.js';
 import type { Settings } from './config.js';
@@ -55,9 +56,21 @@ async function varredura(
   }
 
   if (settings.fonteDeOdds === 'ambos') {
-    // Roda o atual tambem, so para nao perder cobertura enquanto poucas casas
-    // tem adaptador. Quem alerta continua sendo o direto.
+    // Roda o atual tambem, para nao perder cobertura enquanto poucas casas tem
+    // adaptador — e, principalmente, para MEDIR. Quem alerta segue sendo o direto.
     const antigo = await varrer({ settings }).catch(() => null);
+
+    if (antigo && direto) {
+      const divs = compararTudo(antigo.oddsPorJogo, direto.oddsPorJogo);
+      const gravadas = await repo.gravarDivergencias(divs);
+      if (gravadas > 0) {
+        const pior = divs.reduce((a, b) => (b.desvioMaxPct > a.desvioMaxPct ? b : a));
+        console.log(
+          `   divergencia: ${gravadas} casa(s) — pior ${pior.desvioMaxPct.toFixed(1)}% em ${pior.nome}`,
+        );
+      }
+    }
+
     if (!direto && antigo) return { principal: antigo, fonte: 'flashscore (direto falhou)' };
   }
 

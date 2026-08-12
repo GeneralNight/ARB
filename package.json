@@ -18,6 +18,7 @@
     "buscar": "tsx src/cli/buscar-liga.ts",
     "sondar": "tsx src/cli/sondar.ts",
     "comparar": "tsx src/cli/comparar.ts",
+    "divergencia": "tsx src/cli/divergencia.ts",
     "test:telegram": "tsx src/cli/test-telegram.ts",
     "test": "vitest run",
     "test:watch": "vitest",
