@@ -64,8 +64,20 @@ export function parseOdds(resp: OddsResponse): OddsDoJogo | null {
     (o) => o.bettingType === 'HOME_DRAW_AWAY' && o.bettingScope === 'FULL_TIME',
   );
 
-  // Os ids de participante nao vem rotulados: a ordem de aparicao define
-  // mandante e visitante, igual ao que o site faz ao montar a tabela.
+  // Os ids de participante nao vem rotulados — nao ha `participantId`,
+  // `homeAway` nem `side` em lugar nenhum do payload (conferido). A ordem de
+  // aparicao e o unico sinal, e ela e VISITANTE primeiro, mandante depois.
+  //
+  // Estava invertido ate 12/08/2026. O erro se escondia bem: como todas as
+  // casas vinham espelhadas juntas, `bestLine` continuava achando a arbitragem
+  // certa (S e a soma dos tres maximos; trocar dois rotulos nao muda a soma) e
+  // o ROI saia correto. So o ALERTA mentia — mandava apostar no mandante pelo
+  // preco do visitante, e a arbitragem morria na hora de executar.
+  //
+  // Descoberto comparando com a odd direta da Superbet: nos 19 jogos pareados,
+  // os 19 tinham empate identico e casa/fora trocados. Confirmado por sentido
+  // futebolistico em Copenhagen x Debrecen (1,19 x 11,00), Hearts x Benfica e
+  // Rangers x Jagiellonia.
   const participantes: string[] = [];
   for (const linha of linhas) {
     for (const item of linha.odds) {
@@ -74,7 +86,7 @@ export function parseOdds(resp: OddsResponse): OddsDoJogo | null {
       }
     }
   }
-  const [idMandante, idVisitante] = participantes;
+  const [idVisitante, idMandante] = participantes;
   if (!idMandante || !idVisitante) return null;
 
   const casas: OddsCasa[] = [];

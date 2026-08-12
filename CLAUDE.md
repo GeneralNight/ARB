@@ -72,7 +72,11 @@ e valor por `÷`. `ZA` nome da liga · `ZEE` id · `ZL` path · `AA` id do jogo 
 **Formato das odds** (`src/flashscore/odds.ts`):
 - `settings.bookmakers[].bookmaker.{id,name}` — **aninhado**, fácil errar.
 - Filtrar `bettingType === 'HOME_DRAW_AWAY'` **e** `bettingScope === 'FULL_TIME'`.
-- Nos 3 itens: id do mandante → Casa · id do visitante → Fora ·
+- **A ordem dos participantes é VISITANTE primeiro, mandante depois.** Não há
+  `participantId`, `homeAway` nem `side` em lugar nenhum do payload — a ordem de
+  aparição é o único sinal, e ela é invertida em relação ao intuitivo.
+  Ficou errado até 12/08/2026 (ver "Armadilhas").
+- Nos 3 itens: 2º participante → Casa · 1º participante → Fora ·
   **`eventParticipantId === null` → Empate**.
 - Respeitar `active`; odd suspensa não é apostável.
 - **Não há URL de casa em lugar nenhum do payload.** `bookmaker` traz só
@@ -177,6 +181,15 @@ nível INFO — é o desenho pretendido, não um problema. Views usam
 
 ## Armadilhas já encontradas
 
+- **Mandante e visitante vinham trocados** (corrigido em 12/08/2026). O parser
+  assumia que o 1º `eventParticipantId` do payload era o mandante; é o visitante.
+  **O bug se escondia porque o ROI continuava certo**: `S` é a soma dos três
+  máximos, e trocar dois rótulos não muda a soma — `bestLine`, margem e alerta de
+  arbitragem seguiam corretos. Só o *rótulo* mentia, mandando apostar no mandante
+  pelo preço do visitante, o que mataria a arbitragem na execução.
+  Travado por teste que confere a regra contra o payload, não só os números
+  (`src/flashscore/parsers.test.ts`).
+  **Lição: métrica agregada certa não prova rótulo certo.**
 - **`AE` é opcional no feed.** ~2% dos jogos trazem o mandante só em `CX`.
   Exigir `AE` descartava jogos em silêncio — e jogo descartado é arbitragem
   perdida sem aviso. Há teste travando isso.

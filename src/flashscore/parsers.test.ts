@@ -86,12 +86,61 @@ describe('parseOdds', () => {
     expect(odds.casas.filter((c) => c.nome.startsWith('#'))).toHaveLength(0);
   });
 
-  it('mapeia casa/empate/fora corretamente', () => {
-    // Valores conferidos na tabela do site para a bet365 nesse jogo.
+  /**
+   * Direcao de mandante/visitante — corrigida em 12/08/2026.
+   *
+   * O payload nao rotula os participantes (nao existe `participantId`,
+   * `homeAway` nem `side`): a ordem de aparicao e o unico sinal, e ela e
+   * VISITANTE primeiro. A versao anterior assumia o contrario.
+   *
+   * A prova nao foi palpite futebolistico: comparando com a odd direta da
+   * Superbet, o proprio texto dela dizia "FC Copenhagen vence a partida" para a
+   * cotacao 1,19, enquanto este parser punha 11,00 no Copenhagen. Nos 19 jogos
+   * pareados naquela rodada, os 19 vieram com empate identico e casa/fora
+   * trocados — inversao sistematica, nao caso isolado.
+   *
+   * O erro se escondia porque `bestLine` continuava certo: S e a soma dos tres
+   * maximos, e trocar dois rotulos nao muda a soma. So o alerta mentia, mandando
+   * apostar no mandante pelo preco do visitante.
+   */
+  it('usa o SEGUNDO participante do payload como mandante', () => {
+    const linhas = (oddsRaw as any).data.findOddsByEventId.odds.filter(
+      (o: any) => o.bettingType === 'HOME_DRAW_AWAY' && o.bettingScope === 'FULL_TIME',
+    );
+    const ordem: string[] = [];
+    for (const linha of linhas) {
+      for (const item of linha.odds) {
+        if (item.eventParticipantId && !ordem.includes(item.eventParticipantId)) {
+          ordem.push(item.eventParticipantId);
+        }
+      }
+    }
+    const [idVisitante, idMandante] = ordem;
+
+    const linhaBet365 = linhas.find((l: any) => l.bookmakerId === 16)!;
+    const valor = (id: string | null) =>
+      Number(linhaBet365.odds.find((o: any) => o.eventParticipantId === id).value);
+
     const bet365 = odds.casas.find((c) => c.bookmakerId === 16)!;
-    expect(bet365.casa).toBe(2.55);
+    expect(bet365.casa).toBe(valor(idMandante!));
+    expect(bet365.fora).toBe(valor(idVisitante!));
+    expect(bet365.empate).toBe(valor(null));
+  });
+
+  it('mapeia casa/empate/fora nos valores esperados', () => {
+    // Jogo do fixture: Platense (mandante) x Talleres Cordoba (visitante),
+    // Liga Profesional Argentina. Valores da bet365 sob a direcao corrigida.
+    const bet365 = odds.casas.find((c) => c.bookmakerId === 16)!;
+    expect(bet365.casa).toBe(3.2);
     expect(bet365.empate).toBe(2.75);
-    expect(bet365.fora).toBe(3.2);
+    expect(bet365.fora).toBe(2.55);
+  });
+
+  it('a inversao NAO muda a margem — e por isso o bug ficou escondido', () => {
+    // Prova da propriedade que enganou: S soma os tres maximos, entao trocar
+    // dois rotulos deixa o ROI identico. Quem so olhasse a margem nao veria nada.
+    const invertidas = odds.casas.map((c) => ({ ...c, casa: c.fora, fora: c.casa }));
+    expect(bestLine(invertidas)!.margemPct).toBeCloseTo(bestLine(odds.casas)!.margemPct, 6);
   });
 
   it('todas as odds sao numeros plausiveis', () => {
