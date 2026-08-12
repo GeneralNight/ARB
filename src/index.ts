@@ -6,10 +6,12 @@
  */
 
 import { anteriorDaFamilia, mereceRealerta } from './arb/calc.js';
-import { varrer } from './arb/scanner.js';
+import { varrer, type ResultadoVarredura } from './arb/scanner.js';
 import { estaBloqueado, segundosAteDesbloquear } from './flashscore/client.js';
+import { varrerDireto } from './odds/scanner-direto.js';
 import * as repo from './db/repo.js';
 import { enviarAlerta, processarUpdates, telegramConfigurado } from './telegram/bot.js';
+import type { Settings } from './config.js';
 
 const INTERVALO_CICLO_MS = 60_000;
 const LIMPEZA_A_CADA_CICLOS = 60; // ~1x por hora
@@ -25,6 +27,43 @@ for (const sinal of ['SIGINT', 'SIGTERM'] as const) {
   });
 }
 
+/**
+ * Escolhe o pipeline. E o unico ponto onde os dois sistemas se encontram.
+ *
+ * Cada um roda em try/catch proprio: em modo `ambos`, o pipeline direto quebrar
+ * nao pode impedir o atual de alertar. E NAO ha queda automatica de `direto`
+ * para `flashscore` — misturar odd confiavel com odd defasada dentro do mesmo
+ * `bestLine` e exatamente o defeito que o sistema direto existe para eliminar.
+ */
+async function varredura(
+  settings: Settings,
+): Promise<{ principal: ResultadoVarredura | null; fonte: string }> {
+  if (settings.fonteDeOdds === 'flashscore') {
+    return { principal: await varrer({ settings }), fonte: 'flashscore' };
+  }
+
+  const direto = await varrerDireto({ settings }).catch((err) => {
+    console.error(`[${agora()}] pipeline direto falhou:`, err instanceof Error ? err.message : err);
+    return null;
+  });
+
+  if (direto) {
+    for (const c of direto.configsRejeitadas) {
+      console.log(`   ! config invalida na casa ${c.bookmakerId}: ${c.erro}`);
+    }
+    for (const f of direto.casasComFalha) console.log(`   ! ${f.nome}: ${f.erro}`);
+  }
+
+  if (settings.fonteDeOdds === 'ambos') {
+    // Roda o atual tambem, so para nao perder cobertura enquanto poucas casas
+    // tem adaptador. Quem alerta continua sendo o direto.
+    const antigo = await varrer({ settings }).catch(() => null);
+    if (!direto && antigo) return { principal: antigo, fonte: 'flashscore (direto falhou)' };
+  }
+
+  return { principal: direto, fonte: 'direto' };
+}
+
 async function ciclo(n: number): Promise<void> {
   const settings = await repo.lerSettings();
 
@@ -33,16 +72,17 @@ async function ciclo(n: number): Promise<void> {
     return;
   }
 
-  // Disjuntor ativo: nem chega a bater no Flashscore.
-  if (estaBloqueado()) {
+  // Disjuntor do Flashscore: so trava quem depende dele.
+  if (settings.fonteDeOdds !== 'direto' && estaBloqueado()) {
     console.log(`[${agora()}] pausado por rate limit — ${segundosAteDesbloquear()}s restantes`);
     return;
   }
 
-  const r = await varrer({ settings });
+  const { principal: r, fonte } = await varredura(settings);
+  if (!r) return;
 
   console.log(
-    `[${agora()}] feed ${r.jogosNoFeed} → liga ${r.aposFiltroDeLiga} → ` +
+    `[${agora()}] [${fonte}] feed ${r.jogosNoFeed} → liga ${r.aposFiltroDeLiga} → ` +
       `pre-jogo ${r.aposFiltroPreJogo} → cadencia ${r.aposCadencia} → ` +
       `odds ${r.comOdds}${r.adiados ? ` (+${r.adiados} adiados)` : ''}` +
       `${r.erros ? ` (${r.erros} erros)` : ''}` +
@@ -65,6 +105,7 @@ async function ciclo(n: number): Promise<void> {
       op.aposta,
       settings.banca,
       op.snapshot,
+      settings.fonteDeOdds === 'flashscore' ? 'flashscore' : 'direto',
     );
     if (!gravado) continue;
 
@@ -94,8 +135,16 @@ async function main(): Promise<void> {
       `${settings.lucroMinimoPct < 0 ? ' (calibracao)' : ''} · ` +
       `janela ${settings.janelaDias === 0 ? 'so hoje' : `+${settings.janelaDias}d`} · ` +
       `${c.habilitadas}/${c.total} ligas habilitadas · ` +
+      `fonte ${settings.fonteDeOdds} · ` +
       `telegram ${telegramConfigurado() ? 'ok' : 'nao configurado'}`,
   );
+  if (settings.fonteDeOdds !== 'flashscore') {
+    const { configs, rejeitadas } = await repo.configsDeCasas();
+    console.log(
+      `fonte direta: ${configs.length} casa(s) com adaptador` +
+        `${rejeitadas.length ? ` · ${rejeitadas.length} config(s) invalida(s)` : ''}`,
+    );
+  }
   if (c.habilitadas === 0) {
     console.log('\nNenhuma liga habilitada. No painel do Supabase:');
     console.log("  update competitions set enabled = true where id in ('Yq4hUnzQ');");

@@ -9,6 +9,7 @@
 import { RETENCAO_DIAS, SETTINGS_PADRAO, settingsSchema, type Settings } from '../config.js';
 import type { AlertaAnterior, Aposta, MelhorLinha } from '../arb/calc.js';
 import type { Jogo, Liga } from '../flashscore/feed.js';
+import { validarConfig, type ConfigCasa } from '../odds/esquema.js';
 import { db } from './client.js';
 
 // ---------------------------------------------------------------- settings
@@ -49,13 +50,25 @@ export async function gravarSetting(key: keyof Settings, value: unknown): Promis
 export const COLUNAS_CURADAS = {
   competitions: ['enabled'],
   bookmakers: ['has_account', 'max_stake', 'note', 'url'],
+  bookmaker_competitions: ['manual'],
+  bookmaker_events: ['manual'],
 } as const;
 
 /** Exatamente o que o sync tem permissao de escrever. */
 export const COLUNAS_DO_SYNC = {
   competitions: ['id', 'name', 'url_path', 'country', 'last_seen_at'],
   bookmakers: ['id', 'name', 'last_seen_at'],
+  bookmaker_competitions: ['bookmaker_id', 'competition_id', 'competition_id_casa', 'score'],
+  bookmaker_events: ['bookmaker_id', 'match_id', 'event_id_casa', 'score', 'via'],
 } as const;
+
+/**
+ * Tabelas que sao inteiramente do usuario/painel — o robo so LE.
+ *
+ * Diferente das acima, onde o sync escreve algumas colunas: aqui nao ha upsert
+ * automatico nenhum. Estao listadas para que o teste de regressao possa cobrar.
+ */
+export const TABELAS_SO_LEITURA = ['bookmaker_configs', 'bookmaker_auth'] as const;
 
 // ------------------------------------------------------------ competicoes
 
@@ -139,6 +152,151 @@ export async function casasComConta(): Promise<Set<number>> {
   return new Set((data ?? []).map((c) => c.id as number));
 }
 
+export interface CasaCadastrada {
+  id: number;
+  nome: string;
+  url: string | null;
+}
+
+/** Catalogo completo de casas — usado pela sondagem e pelo registro de configs. */
+export async function casasCadastradas(): Promise<CasaCadastrada[]> {
+  const { data, error } = await db().from('bookmakers').select('id, name, url').order('name');
+  if (error) throw new Error(`lendo casas: ${error.message}`);
+  return (data ?? []).map((c) => ({
+    id: c.id as number,
+    nome: c.name as string,
+    url: (c.url as string | null) ?? null,
+  }));
+}
+
+// ------------------------------------------- casas: config e pareamento
+
+/**
+ * Linhas do upsert de pareamento de competicoes. Pura: e o que o teste inspeciona.
+ *
+ * `manual` fica de fora pelo mesmo motivo que `enabled` fica fora do sync de
+ * ligas — o usuario corrige o que a heuristica errou, e um sync que
+ * sobrescrevesse a correcao a desfaria em silencio a cada execucao.
+ */
+export function linhasDePareamentoDeCompeticoes(
+  pares: Array<{ bookmakerId: number; competitionId: string; competitionIdCasa: string; score: number }>,
+) {
+  return pares.map((p) => ({
+    bookmaker_id: p.bookmakerId,
+    competition_id: p.competitionId,
+    competition_id_casa: p.competitionIdCasa,
+    score: p.score,
+  }));
+}
+
+/** Grava pareamentos de liga, preservando as linhas marcadas como manuais. */
+export async function upsertPareamentoDeCompeticoes(
+  pares: Array<{ bookmakerId: number; competitionId: string; competitionIdCasa: string; score: number }>,
+): Promise<number> {
+  if (pares.length === 0) return 0;
+
+  const manuais = await pareamentosManuaisDeCompeticoes();
+  const gravaveis = pares.filter((p) => !manuais.has(`${p.bookmakerId}:${p.competitionId}`));
+  if (gravaveis.length === 0) return 0;
+
+  const { error } = await db()
+    .from('bookmaker_competitions')
+    .upsert(linhasDePareamentoDeCompeticoes(gravaveis), {
+      onConflict: 'bookmaker_id,competition_id',
+    });
+  if (error) throw new Error(`upsert de pareamento de competicoes: ${error.message}`);
+  return gravaveis.length;
+}
+
+async function pareamentosManuaisDeCompeticoes(): Promise<Set<string>> {
+  const { data, error } = await db()
+    .from('bookmaker_competitions')
+    .select('bookmaker_id, competition_id')
+    .eq('manual', true);
+  if (error) throw new Error(`lendo pareamentos manuais: ${error.message}`);
+  return new Set((data ?? []).map((l) => `${l.bookmaker_id}:${l.competition_id}`));
+}
+
+/** id do Flashscore -> id do campeonato na casa, para uma casa. */
+export async function competicoesDaCasa(bookmakerId: number): Promise<Map<string, string>> {
+  const { data, error } = await db()
+    .from('bookmaker_competitions')
+    .select('competition_id, competition_id_casa')
+    .eq('bookmaker_id', bookmakerId);
+  if (error) throw new Error(`lendo competicoes da casa ${bookmakerId}: ${error.message}`);
+  return new Map((data ?? []).map((l) => [l.competition_id as string, l.competition_id_casa as string]));
+}
+
+export function linhasDePareamentoDeEventos(
+  pares: Array<{ bookmakerId: number; matchId: string; eventIdCasa: string; score: number; via: string }>,
+) {
+  return pares.map((p) => ({
+    bookmaker_id: p.bookmakerId,
+    match_id: p.matchId,
+    event_id_casa: p.eventIdCasa,
+    score: p.score,
+    via: p.via,
+  }));
+}
+
+export async function upsertPareamentoDeEventos(
+  pares: Array<{ bookmakerId: number; matchId: string; eventIdCasa: string; score: number; via: string }>,
+): Promise<void> {
+  if (pares.length === 0) return;
+  const { error } = await db()
+    .from('bookmaker_events')
+    .upsert(linhasDePareamentoDeEventos(pares), { onConflict: 'bookmaker_id,match_id' });
+  if (error) throw new Error(`upsert de pareamento de eventos: ${error.message}`);
+}
+
+/**
+ * Configs das casas, ja validadas.
+ *
+ * A validacao acontece aqui, na leitura, e config invalida vira log + descarte
+ * daquela casa. O painel escreve direto no banco: sem esta barreira, um campo
+ * digitado errado no navegador pararia a varredura inteira.
+ */
+export async function configsDeCasas(): Promise<{ configs: ConfigCasa[]; rejeitadas: Array<{ bookmakerId: number; erro: string }> }> {
+  const { data, error } = await db()
+    .from('bookmaker_configs')
+    .select('bookmaker_id, config')
+    .eq('enabled', true);
+  if (error) throw new Error(`lendo configs de casas: ${error.message}`);
+
+  const configs: ConfigCasa[] = [];
+  const rejeitadas: Array<{ bookmakerId: number; erro: string }> = [];
+  for (const linha of data ?? []) {
+    const r = validarConfig(linha.config);
+    if (r.ok) configs.push(r.config);
+    else rejeitadas.push({ bookmakerId: linha.bookmaker_id as number, erro: r.erro });
+  }
+  return { configs, rejeitadas };
+}
+
+export async function salvarConfigDeCasa(bookmakerId: number, config: unknown): Promise<void> {
+  const { error } = await db()
+    .from('bookmaker_configs')
+    .upsert(
+      { bookmaker_id: bookmakerId, config, updated_at: new Date().toISOString() },
+      { onConflict: 'bookmaker_id' },
+    );
+  if (error) throw new Error(`gravando config da casa ${bookmakerId}: ${error.message}`);
+}
+
+/** Cookie + UA colhidos pelo porteiro. Andam juntos: o cf_clearance depende do UA. */
+export async function authDaCasa(
+  bookmakerId: number,
+): Promise<{ cookie: string; userAgent: string | null } | null> {
+  const { data, error } = await db()
+    .from('bookmaker_auth')
+    .select('cookie, user_agent')
+    .eq('bookmaker_id', bookmakerId)
+    .maybeSingle();
+  if (error) throw new Error(`lendo auth da casa ${bookmakerId}: ${error.message}`);
+  if (!data?.cookie) return null;
+  return { cookie: data.cookie as string, userAgent: (data.user_agent as string | null) ?? null };
+}
+
 // --------------------------------------------------------------- jogos
 
 export async function upsertJogos(jogos: Jogo[]): Promise<void> {
@@ -174,9 +332,22 @@ export async function ultimasVarreduras(): Promise<Map<string, { em: Date; n: nu
 
 // ------------------------------------------------------------ line_scans
 
-export async function gravarLineScan(matchId: string, linha: MelhorLinha): Promise<void> {
+/**
+ * `source` diz de qual sistema veio a leitura.
+ *
+ * Sem isso o historico vira mistura nao interpretavel: o baseline empirico do
+ * projeto foi medido com odds do Flashscore, e comparar com odds diretas sem
+ * saber qual e qual nao significa nada. Padrao 'flashscore' para que a chamada
+ * do sistema atual continue identica.
+ */
+export async function gravarLineScan(
+  matchId: string,
+  linha: MelhorLinha,
+  source: 'flashscore' | 'direto' = 'flashscore',
+): Promise<void> {
   const { error } = await db().from('line_scans').insert({
     match_id: matchId,
+    source,
     s: linha.s.toFixed(5),
     margin_pct: linha.margemPct.toFixed(3),
     best_home: linha.casa.odd,
@@ -219,6 +390,7 @@ export async function gravarAlerta(
   aposta: Aposta,
   banca: number,
   snapshot: unknown,
+  source: 'flashscore' | 'direto' = 'flashscore',
 ): Promise<AlertaGravado | null> {
   const { data, error } = await db()
     .from('arb_alerts')
@@ -226,6 +398,7 @@ export async function gravarAlerta(
       {
         match_id: matchId,
         dedupe_key: dedupeKey,
+        source,
         s: aposta.s.toFixed(5),
         roi_pct: aposta.roiPct.toFixed(3),
         bankroll: banca,

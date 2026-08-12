@@ -14,6 +14,8 @@ import {
   COLUNAS_DO_SYNC,
   linhasDeCasas,
   linhasDeCompeticoes,
+  linhasDePareamentoDeCompeticoes,
+  linhasDePareamentoDeEventos,
 } from './repo.js';
 import type { Liga } from '../flashscore/feed.js';
 
@@ -53,6 +55,44 @@ describe('contrato de curadoria — casas', () => {
   it('nunca inclui uma coluna curada', () => {
     for (const linha of linhasDeCasas(CASAS)) {
       for (const proibida of COLUNAS_CURADAS.bookmakers) {
+        expect(linha).not.toHaveProperty(proibida);
+      }
+    }
+  });
+});
+
+/**
+ * Pareamento casa<->Flashscore: mesmo contrato, mesmo risco.
+ *
+ * A correcao manual de um pareamento errado e curadoria tanto quanto `enabled`.
+ * Se o sync a sobrescrevesse, o usuario consertaria a liga hoje e ela voltaria
+ * errada amanha — e pareamento errado soma odds de partidas diferentes.
+ */
+const PARES_COMPETICAO = [
+  { bookmakerId: 933, competitionId: 'Yq4hUnzQ', competitionIdCasa: '90153', score: 1 },
+];
+const PARES_EVENTO = [
+  { bookmakerId: 933, matchId: 'r9z6gEre', eventIdCasa: '13933710', score: 1, via: 'betradar' },
+];
+
+describe('contrato de curadoria — pareamento', () => {
+  it('escreve exatamente as colunas permitidas', () => {
+    for (const linha of linhasDePareamentoDeCompeticoes(PARES_COMPETICAO)) {
+      expect(Object.keys(linha).sort()).toEqual([...COLUNAS_DO_SYNC.bookmaker_competitions].sort());
+    }
+    for (const linha of linhasDePareamentoDeEventos(PARES_EVENTO)) {
+      expect(Object.keys(linha).sort()).toEqual([...COLUNAS_DO_SYNC.bookmaker_events].sort());
+    }
+  });
+
+  it('nunca inclui `manual`', () => {
+    for (const linha of linhasDePareamentoDeCompeticoes(PARES_COMPETICAO)) {
+      for (const proibida of COLUNAS_CURADAS.bookmaker_competitions) {
+        expect(linha).not.toHaveProperty(proibida);
+      }
+    }
+    for (const linha of linhasDePareamentoDeEventos(PARES_EVENTO)) {
+      for (const proibida of COLUNAS_CURADAS.bookmaker_events) {
         expect(linha).not.toHaveProperty(proibida);
       }
     }
@@ -102,5 +142,23 @@ describe('sync repetido preserva a curadoria', () => {
     expect(casa?.max_stake).toBe(500);
     expect(casa?.note).toBe('limitada');
     expect(casa?.url).toBe('https://bet365.bet.br');
+  });
+
+  it('nao desfaz o pareamento que voce corrigiu a mao', () => {
+    const tabela = new Map<string | number, Record<string, unknown>>([
+      ['933:Yq4hUnzQ', { id: '933:Yq4hUnzQ', competition_id_casa: '11111', manual: true }],
+    ]);
+
+    // `upsertPareamentoDeCompeticoes` filtra as manuais ANTES de escrever, entao
+    // a linha curada nem chega ao upsert. Aqui vale a mesma prova das outras:
+    // mesmo que chegasse, `manual` nunca esta entre as colunas enviadas.
+    const linhas = linhasDePareamentoDeCompeticoes(PARES_COMPETICAO).map((l) => ({
+      ...l,
+      id: `${l.bookmaker_id}:${l.competition_id}`,
+    }));
+    aplicarUpsert(tabela, linhas);
+    aplicarUpsert(tabela, linhas);
+
+    expect(tabela.get('933:Yq4hUnzQ')?.manual).toBe(true);
   });
 });

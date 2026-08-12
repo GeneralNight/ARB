@@ -27,6 +27,19 @@ export function carregarEnv(): Env {
  */
 export const JANELA_DIAS_MAX = 7;
 
+/**
+ * Qual sistema de odds esta ativo.
+ *
+ * Sao dois pipelines independentes, nao um `if` dentro do scanner:
+ * `flashscore` roda `src/arb/scanner.ts` (o de sempre, que nao recebeu uma
+ * linha), `direto` roda `src/odds/scanner-direto.ts`. Como `settings` e relida
+ * a cada ciclo, virar a chave vale no minuto seguinte, sem restart.
+ *
+ * `ambos` roda os dois, alerta pela fonte direta e grava a diferenca — e o
+ * modo que mede quanto o Flashscore erra, em vez de supor.
+ */
+export type FonteDeOdds = 'flashscore' | 'direto' | 'ambos';
+
 /** Ajustaveis em tempo de execucao, lidos da tabela `settings` a cada ciclo. */
 export interface Settings {
   banca: number;
@@ -38,6 +51,7 @@ export interface Settings {
   /** 0 = so hoje · 1 = hoje + amanha · ... · 7 = teto do feed. */
   janelaDias: number;
   pausado: boolean;
+  fonteDeOdds: FonteDeOdds;
 }
 
 export const SETTINGS_PADRAO: Settings = {
@@ -48,6 +62,7 @@ export const SETTINGS_PADRAO: Settings = {
   minutosAntesDoInicio: 5,
   janelaDias: 0,
   pausado: false,
+  fonteDeOdds: 'flashscore',
 };
 
 export const settingsSchema = z.object({
@@ -58,6 +73,12 @@ export const settingsSchema = z.object({
   minutosAntesDoInicio: z.number().min(0),
   janelaDias: z.number().int().min(0).max(JANELA_DIAS_MAX),
   pausado: z.boolean(),
+  /**
+   * `catch` em vez de validacao dura: valor invalido no banco cai no sistema
+   * atual em vez de derrubar o ciclo. Um dedo errado no painel nao pode parar
+   * o robo — e, se parar, para calado, que e pior.
+   */
+  fonteDeOdds: z.enum(['flashscore', 'direto', 'ambos']).catch('flashscore'),
 });
 
 /**

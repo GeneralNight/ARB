@@ -29,6 +29,12 @@ npm run sync:competitions # descobre competições (dias -1..+7)
 npm run buscar -- "nome"  # acha liga fora de temporada (API de busca)
 npm run add:liga -- <id>  # cadastra/habilita liga manualmente
 npm run test:telegram     # alerta de exemplo, espera 90s pelo clique
+
+# sistema de odds diretas (segundo pipeline)
+npm run sondar            # classifica o acesso das 27 casas → docs/casas-sondagem.md
+npm run scan:direto       # varredura única pelo pipeline direto (sem Telegram)
+npm run comparar          # Flashscore × odd direta, lado a lado
+npm run comparar -- <id>  # idem, num jogo só
 ```
 
 ---
@@ -151,6 +157,46 @@ nesses códigos — insistir em rate limit é o que vira bloqueio de IP.
 
 ---
 
+## Odds diretas — segundo sistema, independente
+
+São **dois pipelines paralelos**, não um `if`. `settings.fonteDeOdds` escolhe:
+`flashscore` (padrão, `src/arb/scanner.ts`) · `direto`
+(`src/odds/scanner-direto.ts`) · `ambos`. Valor inválido cai em `flashscore` via
+`z.enum().catch()` — dedo errado no painel não pode parar o robô.
+
+Independência é **por construção**: `src/arb/*`, `src/flashscore/*` e
+`src/telegram/*` não são importados em modo `direto` (o tipo compartilhado entra
+por `import type`, apagado na compilação). O cliente HTTP é separado
+(`src/http/client.ts`, com **disjuntor por host** — um 429 da Betano não pode
+calar a Superbet). O que os dois compartilham de propósito é `src/arb/calc.ts`:
+a matemática precisa ser a mesma para o modo `ambos` medir alguma coisa.
+
+**A coleta inverte: por casa e por dia, não por jogo.** Uma requisição da
+Superbet devolveu 257 jogos (~2,3 KB/jogo) contra 900 KB/jogo do Flashscore. O
+custo vira `casas × dias`, sem depender de quantos jogos há — puxar direto é
+**mais barato**, não mais caro. Por isso a cadência muda de papel: no direto ela
+limita a **gravação** de `line_scans`, não a busca (que já veio inteira), e todo
+jogo é avaliado em todo ciclo.
+
+**Config é linha de banco, não arquivo.** `bookmaker_configs` (jsonb) é a fonte
+da verdade, lida a cada ciclo; `src/odds/casas/*.json` são semente e alvo dos
+testes. Validação zod em `src/odds/esquema.ts` acontece na **leitura**: config
+inválida tira aquela casa do ciclo, com log, sem derrubar a varredura. Isso é
+requisito, não zelo — um painel escreve direto no banco.
+
+**Pareamento é o risco nº 1, não o scraping.** `src/odds/pareamento.ts` é puro e
+recusa na dúvida: exige acerto nos **dois** times, margem sobre o 2º colocado
+(empate técnico = recusa) e janela de kickoff. Atalho exato por `betradarId`,
+que 97% dos jogos da Superbet trazem. Sufixos `II`/`B`/`U21` são **preservados** na
+normalização — apagá-los fundiria time principal com reserva.
+
+**Liga sai de graça, derivada dos jogos já pareados** (`derivarCompeticoes`).
+A Superbet não publica catálogo de torneios (`/tournaments`, `/categories`: 404),
+então parear por nome ali seria impossível — mas jogo pareado revela a liga. Usa
+o sinal mais forte e funciona em qualquer casa. `parearCompeticao` (contenção de
+tokens, não Dice) fica para as casas que só buscam por liga: Dice não vê a
+diferença entre "Série A" e "Série B", que é a única que importa.
+
 ## Contrato de curadoria — NUNCA violar
 
 Estas colunas são do usuário e **nenhum upsert automático pode tocá-las**:
@@ -158,6 +204,10 @@ Estas colunas são do usuário e **nenhum upsert automático pode tocá-las**:
 - `competitions.enabled`
 - `bookmakers.has_account`, `bookmakers.max_stake`, `bookmakers.note`,
   `bookmakers.url`
+- `bookmaker_competitions.manual`, `bookmaker_events.manual` — correção manual de
+  pareamento é curadoria igual às outras; sem isso o usuário consertaria a liga
+  hoje e ela voltaria errada amanhã
+- `bookmaker_configs` e `bookmaker_auth` **inteiras** — o robô só lê
 
 O upsert de competições atualiza só `name`/`url_path`/`last_seen_at`. Um sync que
 sobrescrevesse `enabled` apagaria a configuração inteira em silêncio.
@@ -187,9 +237,16 @@ nível INFO — é o desenho pretendido, não um problema. Views usam
   máximos, e trocar dois rótulos não muda a soma — `bestLine`, margem e alerta de
   arbitragem seguiam corretos. Só o *rótulo* mentia, mandando apostar no mandante
   pelo preço do visitante, o que mataria a arbitragem na execução.
-  Travado por teste que confere a regra contra o payload, não só os números
-  (`src/flashscore/parsers.test.ts`).
+  Descoberto ao comparar com a odd direta da Superbet: 19 de 19 jogos com empate
+  idêntico e casa/fora trocados. Travado por teste que confere a regra contra o
+  payload, não só os números (`src/flashscore/parsers.test.ts`).
   **Lição: métrica agregada certa não prova rótulo certo.**
+- **`bestLine` precisa de 3 casas distintas** — abaixo disso o sistema direto é
+  sempre silencioso, por aritmética, não por defeito. Virar `fonteDeOdds` para
+  `direto` com menos de 3 adaptadores cala o robô.
+- **`Invoke-WebRequest` do PowerShell decodifica como Latin-1** quando o servidor
+  não declara charset. Gravar `.Content` como UTF-8 corrompe o fixture (`·` vira
+  `Â·`). Use `-OutFile`, que grava os bytes crus.
 - **`AE` é opcional no feed.** ~2% dos jogos trazem o mandante só em `CX`.
   Exigir `AE` descartava jogos em silêncio — e jogo descartado é arbitragem
   perdida sem aviso. Há teste travando isso.
@@ -236,6 +293,21 @@ Projeto Supabase **ARB**: `fkahtqqlznhrwkenenve` (org Ortolani, us-west-2).
 | `minutosAntesDoInicio` | 5 | para de varrer N min antes do apito |
 | `somenteCasasComConta` | false | ainda não filtrado — 0 casas marcadas |
 | `pausado` | false | |
+| `fonteDeOdds` | flashscore | `flashscore` · `direto` · `ambos` |
+
+**Sondagem das 27 casas** (12/08/2026, do Brasil — `docs/casas-sondagem.md`):
+19 abertas · 1 portão próprio (Betano, "Splash Screen") · 3 desafio JS
+(1xBet, KTO, Novibet — `cf-mitigated: challenge`, resolvível por `cf_clearance`)
+· 2 negadas em WAF (bet365, Betboom). **9 casas rodam em Altenar** (BateuBet,
+BR4Bet, Brasildasorte, Esportivabet, F12, Goldebet, Jogo de Ouro, Lotogreen,
+LuvaBet) — um adaptador cobre as nove, é o maior ganho por hora disponível.
+Headers de navegador **não** vencem o bloqueio (testado): é fingerprint de
+TLS/HTTP2. Só a Superbet tem adaptador hoje.
+
+**Divergência medida Flashscore × Superbet direta**: 18 jogos, 54 pernas,
+diferença média **0,000**, pior desvio **0,0%** — depois de corrigir a inversão
+mandante/visitante. Ou seja, o "não bate com o site" era o bug de rótulo, não
+atraso do agregador. O modo `ambos` existe para continuar medindo isso.
 
 387 competições no catálogo, **20 habilitadas** (lista definida pelo usuário:
 UCL/UEL/UECL, Premier League, LaLiga, Bundesliga I e II, Eredivisie, MLS,

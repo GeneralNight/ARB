@@ -1,0 +1,35 @@
+{
+  "bookmakerId": 933,
+  "nome": "Superbet.br",
+  "busca": "por-data",
+  "requisicao": {
+    "url": "https://production-superbet-offer-br.freetls.fastly.net/v2/pt-BR/events/by-date?offerState=prematch&sportId=5&startDate={data}%2000:00:00&endDate={dataFim}%2000:00:00",
+    "headers": {
+      "Accept": "application/json"
+    }
+  },
+  "extracao": {
+    "eventos": "data",
+    "idNaCasa": "eventId",
+    "competicao": "tournamentId",
+    "betradarId": "betradarId",
+    "times": {
+      "campo": "matchName",
+      "separador": "·"
+    },
+    "kickoff": {
+      "campo": "unixDateMillis",
+      "unidade": "ms"
+    },
+    "mercado": {
+      "lista": "odds",
+      "filtro": { "marketId": 547 },
+      "ativo": { "campo": "status", "valor": "active" },
+      "chave": "code",
+      "preco": "price",
+      "casa": "1",
+      "empate": "0",
+      "fora": "2"
+    }
+  }
+}
