@@ -8,7 +8,7 @@
  */
 
 import { buscarJson } from '../http/client.js';
-import type { ConfigCasa, Extracao } from './esquema.js';
+import type { ConfigDeclarativa, Extracao } from './esquema.js';
 import type { AdaptadorCasa, EventoDaCasa } from './tipos.js';
 
 /** Navega `a.b.c` num objeto desconhecido, sem lancar. */
@@ -156,7 +156,7 @@ export function extrairEventos(resposta: unknown, extracao: Extracao): EventoDaC
 
 /** Amarra a config a rede. As competicoes so importam para `busca: por-competicao`. */
 export function criarAdaptador(
-  config: ConfigCasa,
+  config: ConfigDeclarativa,
   competicoesDaCasa: () => Promise<string[]> = async () => [],
 ): AdaptadorCasa {
   return {

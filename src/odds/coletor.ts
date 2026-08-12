@@ -14,9 +14,9 @@
 import type { OddsCasa } from '../arb/calc.js';
 import type { Jogo } from '../flashscore/feed.js';
 import * as repo from '../db/repo.js';
-import { criarAdaptador } from './motor.js';
+import { criarAdaptadorDaConfig } from './registro.js';
 import { derivarCompeticoes, parear } from './pareamento.js';
-import type { EventoDaCasa } from './tipos.js';
+import type { AdaptadorCasa, EventoDaCasa } from './tipos.js';
 
 export interface ResultadoColeta {
   /** matchId -> odds de cada casa que oferece aquele jogo. */
@@ -40,10 +40,7 @@ function diasDaJanela(jogos: Jogo[], agora = new Date()): number[] {
   return [...dias].sort((a, b) => a - b);
 }
 
-async function eventosDaCasa(
-  adaptador: ReturnType<typeof criarAdaptador>,
-  dias: number[],
-): Promise<EventoDaCasa[]> {
+async function eventosDaCasa(adaptador: AdaptadorCasa, dias: number[]): Promise<EventoDaCasa[]> {
   const eventos: EventoDaCasa[] = [];
   for (const dia of dias) eventos.push(...(await adaptador.listarDoDia(dia)));
   return eventos;
@@ -65,9 +62,30 @@ export async function coletarOdds(jogos: Jogo[]): Promise<ResultadoColeta> {
   const dias = diasDaJanela(jogos);
 
   for (const config of configs) {
-    const adaptador = criarAdaptador(config, async () => [
-      ...(await repo.competicoesDaCasa(config.bookmakerId)).values(),
-    ]);
+    // Uma leitura so do mapa de ligas: serve de filtro depois e, nas casas que
+    // aceitam, ja entra na propria requisicao para encolher o payload.
+    const mapaLigas = await repo.competicoesDaCasa(config.bookmakerId);
+    const idsDeCompeticao = [...mapaLigas.values()];
+
+    // Armadilha evitada: pedir so as ligas conhecidas impede DESCOBRIR liga
+    // nova. Se a Premier League estrear amanha, ela nunca viria no payload
+    // filtrado, nunca seria pareada e nunca entraria no mapa — o robo ficaria
+    // cego para ela em silencio, que e o pior tipo de falha aqui.
+    //
+    // Entao o filtro so vale quando TODA liga da janela ja esta mapeada nesta
+    // casa. Caso contrario, busca cheia e a descoberta acontece. Na pratica isso
+    // e barato: a janela costuma ter poucas ligas, quase sempre ja mapeadas, e a
+    // busca cheia so volta quando uma liga nova comeca a jogar.
+    //
+    // Custo residual conhecido: casa que NAO oferece uma das ligas habilitadas
+    // nunca a mapeia, entao paga busca cheia sempre. Aceitavel enquanto as ligas
+    // habilitadas forem grandes; se virar problema, o conserto e marcar a
+    // ausencia no banco em vez de reconsultar.
+    const ligasDaJanela = new Set(jogos.map((j) => j.ligaId));
+    const tudoMapeado = [...ligasDaJanela].every((l) => mapaLigas.has(l));
+    const filtroDeLigas = tudoMapeado ? idsDeCompeticao : [];
+
+    const adaptador = criarAdaptadorDaConfig(config, async () => idsDeCompeticao, filtroDeLigas);
 
     let eventos: EventoDaCasa[];
     try {
@@ -85,10 +103,6 @@ export async function coletarOdds(jogos: Jogo[]): Promise<ResultadoColeta> {
 
     resultado.casasConsultadas++;
     resultado.eventosVistos += eventos.length;
-
-    // Filtro por liga quando ja existe mapa: encolhe o espaco de busca, que e o
-    // que mais derruba falso positivo — mais que qualquer limiar de similaridade.
-    const mapaLigas = await repo.competicoesDaCasa(config.bookmakerId);
 
     const pares: Array<{ bookmakerId: number; matchId: string; eventIdCasa: string; score: number; via: string }> = [];
     const votosDeLiga: Array<{ competitionId: string; competicaoNaCasa: string }> = [];

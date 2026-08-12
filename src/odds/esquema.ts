@@ -64,10 +64,16 @@ export const extracaoSchema = z.object({
   mercado: mercadoSchema,
 });
 
-export const configCasaSchema = z.object({
+const comum = {
   /** Id do Flashscore — PK de `bookmakers`. A config declara qual casa serve. */
   bookmakerId: z.number().int().positive(),
   nome: z.string().min(1),
+};
+
+/** Casa cuja resposta cabe no motor declarativo (evento com odds aninhadas). */
+export const configDeclarativaSchema = z.object({
+  ...comum,
+  plataforma: z.literal('declarativa'),
   busca: buscaSchema,
   requisicao: z.object({
     url: z.string().min(1),
@@ -76,7 +82,42 @@ export const configCasaSchema = z.object({
   extracao: extracaoSchema,
 });
 
+/**
+ * Casa em plataforma Altenar.
+ *
+ * Nao cabe no declarativo: a resposta e RELACIONAL, com `events`, `markets`,
+ * `odds` e `competitors` em arrays separados ligados por id. Extrair exige
+ * junção, nao caminho — entao vira adaptador TS (`src/odds/casas/altenar.ts`),
+ * que e a saida que o motor sempre previu para casa que nao encaixa.
+ *
+ * Nove casas brasileiras rodam nela, entao o adaptador se paga: muda so o
+ * `integration`.
+ */
+export const configAltenarSchema = z.object({
+  ...comum,
+  plataforma: z.literal('altenar'),
+  /** Nome da integracao da casa no Altenar (ex.: "esportiva", "goldebet"). */
+  integration: z.string().min(1),
+});
+
+/**
+ * `plataforma` ausente = declarativa.
+ *
+ * O preprocess existe porque `discriminatedUnion` nao aplica default no proprio
+ * discriminante: sem isso, toda config gravada antes deste campo existir
+ * passaria a ser invalida de uma vez — e config invalida tira a casa do ciclo.
+ */
+export const configCasaSchema = z.preprocess(
+  (v) =>
+    v && typeof v === 'object' && !Array.isArray(v) && !('plataforma' in v)
+      ? { ...(v as Record<string, unknown>), plataforma: 'declarativa' }
+      : v,
+  z.discriminatedUnion('plataforma', [configDeclarativaSchema, configAltenarSchema]),
+);
+
 export type ConfigCasa = z.infer<typeof configCasaSchema>;
+export type ConfigDeclarativa = z.infer<typeof configDeclarativaSchema>;
+export type ConfigAltenar = z.infer<typeof configAltenarSchema>;
 export type Extracao = z.infer<typeof extracaoSchema>;
 
 /**

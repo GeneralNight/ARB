@@ -190,6 +190,35 @@ recusa na dúvida: exige acerto nos **dois** times, margem sobre o 2º colocado
 que 97% dos jogos da Superbet trazem. Sufixos `II`/`B`/`U21` são **preservados** na
 normalização — apagá-los fundiria time principal com reserva.
 
+**Altenar cobre 9 casas com um adaptador** (`src/odds/casas/altenar.ts`):
+BateuBet, BR4Bet, Brasildasorte, Esportivabet, F12, Goldebet, Jogo de Ouro,
+Lotogreen, LuvaBet. Muda só o `integration` (`bateu`, `br4bet`, `brasildasorte`,
+`esportiva`, `f12`, `goldebet`, `jogodeouro`, `lotogreen`, `luvabet`) — os nomes
+foram **validados contra a API**, não deduzidos do domínio: `f12bet`, `luva` e
+`lotogreenbet` dão 400.
+
+Endpoint: `sb2frontend-altenar2.biahosted.com/api/widget/GetEvents`,
+`sportId=66`, mercado `typeId=1` ("Vencedor do encontro"), cotações
+`typeId` 1/2/3 = casa/empate/fora (o próprio `headers` da resposta documenta
+isso), `oddStatus=0` = valendo.
+
+Não cabe no motor declarativo: a resposta é **relacional** (`events`, `markets`,
+`odds`, `competitors` em arrays ligados por id), então extrair exige junção.
+É o caso que justifica o adaptador TS.
+
+- **`champIds` derruba o payload de ~2,7 MB para ~52 KB**, e é a diferença entre
+  viável e inviável (9 casas × 2,7 MB = 24 MB/ciclo). Filtros de data **não
+  funcionam** (`dateFrom`/`dateTo`, `startDate`/`endDate`, `period` são ignorados):
+  a resposta traz todas as datas, então o adaptador busca uma vez por ciclo e
+  fatia por dia em memória.
+- **O filtro só entra quando toda liga da janela já está mapeada naquela casa.**
+  Sem essa condição, pedir só o conhecido impediria descobrir liga nova — ela
+  nunca viria no payload, nunca seria pareada, e o robô ficaria cego para ela em
+  silêncio.
+- **Trava contra inversão**: há duas fontes independentes de quem é o mandante
+  (`event.competitorIds[0]` e o `competitorId` da cotação tipo 1). Discordando, o
+  jogo é descartado. É a checagem que faltava do lado do Flashscore.
+
 **Liga sai de graça, derivada dos jogos já pareados** (`derivarCompeticoes`).
 A Superbet não publica catálogo de torneios (`/tournaments`, `/categories`: 404),
 então parear por nome ali seria impossível — mas jogo pareado revela a liga. Usa
@@ -302,7 +331,11 @@ Projeto Supabase **ARB**: `fkahtqqlznhrwkenenve` (org Ortolani, us-west-2).
 BR4Bet, Brasildasorte, Esportivabet, F12, Goldebet, Jogo de Ouro, Lotogreen,
 LuvaBet) — um adaptador cobre as nove, é o maior ganho por hora disponível.
 Headers de navegador **não** vencem o bloqueio (testado): é fingerprint de
-TLS/HTTP2. Só a Superbet tem adaptador hoje.
+TLS/HTTP2.
+
+**10 casas com adaptador**: Superbet (declarativa) + as 9 do Altenar. Medido em
+`scan:direto`: 12 jogos com odds, quase todos com as 10 casas, margens de 5,3% a
+8,5% — nenhuma arbitragem, coerente com o baseline.
 
 **Divergência medida Flashscore × Superbet direta**: 18 jogos, 54 pernas,
 diferença média **0,000**, pior desvio **0,0%** — depois de corrigir a inversão

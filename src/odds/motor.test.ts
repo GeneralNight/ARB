@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { validarConfig, type ConfigCasa } from './esquema.js';
+import { validarConfig, type ConfigDeclarativa } from './esquema.js';
 import { extrairEventos, montarUrl, pegar } from './motor.js';
 
 /**
@@ -12,7 +12,8 @@ import { extrairEventos, montarUrl, pegar } from './motor.js';
 const bruto = JSON.parse(readFileSync('src/odds/casas/superbet.json', 'utf8'));
 const validacao = validarConfig(bruto);
 if (!validacao.ok) throw new Error(`config da Superbet invalida: ${validacao.erro}`);
-const config: ConfigCasa = validacao.config;
+if (validacao.config.plataforma !== 'declarativa') throw new Error('esperava config declarativa');
+const config: ConfigDeclarativa = validacao.config;
 
 const fixture = JSON.parse(readFileSync('fixtures/superbet-by-date.json', 'utf8'));
 
