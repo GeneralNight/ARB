@@ -9,7 +9,19 @@
  * responde. O modo de falha perigoso aqui e subir "funcionando" e aberto —
  * ninguem percebe. Recusar tudo e barulhento, e barulhento e o certo.
  */
+/**
+ * Unica excecao: o healthcheck do Railway, que nao manda credencial.
+ *
+ * Comparacao exata, sem `startsWith`: prefixo abriria `/api/healthxyz` e
+ * qualquer coisa que alguem pendurasse depois. A rota nao le o banco nem
+ * devolve dado — so prova que o processo subiu.
+ */
+const ABERTAS = new Set(['/api/health'])
+
 export default defineEventHandler((event) => {
+  const caminho = getRequestURL(event).pathname
+  if (ABERTAS.has(caminho)) return
+
   const cfg = useRuntimeConfig()
 
   if (!cfg.dashboardPassword) {

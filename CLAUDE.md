@@ -265,8 +265,29 @@ Escreve settings por **lista branca por chave**, com validação por chave
 (`server/api/settings.patch.ts`). Curadoria de ligas, configs de casa e
 pareamento manual ficam **de fora** de propósito: são as que quebram em silêncio.
 
-Env: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `DASHBOARD_USER`,
-`DASHBOARD_PASSWORD`.
+### Deploy do painel no Railway
+
+**No mesmo projeto do bot, como SEGUNDO serviço.** Passo a passo:
+
+1. New Service → GitHub Repo → o mesmo repositório.
+2. **Settings → Root Directory = `dashboard`.** ⚠️ **Este passo não é opcional.**
+   Sem ele o Railway builda a raiz e roda `npm start`, que é o **bot** — e dois
+   robôs no mesmo token brigam por `getUpdates`, com o Telegram devolvendo 409.
+   O sintoma é o bot parar de responder botões, não o painel falhar.
+3. Variables: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `DASHBOARD_USER`,
+   `DASHBOARD_PASSWORD`. Sem a senha o painel sobe e responde **503 em tudo**,
+   de propósito.
+4. Settings → Networking → Generate Domain.
+
+`dashboard/railway.json` cuida do resto (Nixpacks, `npm start`, healthcheck).
+
+**`/api/health` é a única rota sem autenticação**, e precisa ser: o healthcheck
+do Railway não manda credencial, então com Basic Auth o deploy ficaria eterno
+"unhealthy" e o serviço seria derrubado. Ela não lê o banco e devolve só
+`{ok:true}` — qualquer dado ali vazaria sem senha.
+
+Não há `watchPatterns` em nenhum dos dois serviços de propósito: build extra é
+barato, deploy perdido não é.
 
 ## Contrato de curadoria — NUNCA violar
 
