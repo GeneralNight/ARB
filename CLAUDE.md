@@ -289,6 +289,21 @@ do Railway não manda credencial, então com Basic Auth o deploy ficaria eterno
 Não há `watchPatterns` em nenhum dos dois serviços de propósito: build extra é
 barato, deploy perdido não é.
 
+**O lock do painel precisa ser gerado com npm 11**, que é o que o Railway usa.
+Com npm 10 o `npm install` produz uma árvore que o `npm ci` depois recusa:
+`@bomb.sh/tab` (transitiva do Nuxt) exige `cac@^6.7.14` e
+`commander@^13||^14||^15`, mas o npm 10 achata para `cac@7.0.0` e
+`commander@11.1.0`. O `install` aceita, o `ci` valida e quebra o deploy. Se
+mexer nas dependências do painel:
+
+```bash
+cd dashboard && rm -rf node_modules package-lock.json
+npx -y npm@11 install && npx -y npm@11 ci   # o `ci` é a prova
+```
+
+`dashboard/.nvmrc` fixa o Node em 22 — o Railway estava escolhendo 24.10.0, que
+o Nuxt 4.5.2 não suporta (`^22.19.0 || ^24.11.0 || >=26.0.0`).
+
 ## Contrato de curadoria — NUNCA violar
 
 Estas colunas são do usuário e **nenhum upsert automático pode tocá-las**:
