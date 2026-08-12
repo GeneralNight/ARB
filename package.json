@@ -19,6 +19,7 @@
     "sondar": "tsx src/cli/sondar.ts",
     "comparar": "tsx src/cli/comparar.ts",
     "divergencia": "tsx src/cli/divergencia.ts",
+    "auditar": "tsx src/cli/auditar-alertas.ts",
     "test:telegram": "tsx src/cli/test-telegram.ts",
     "test": "vitest run",
     "test:watch": "vitest",

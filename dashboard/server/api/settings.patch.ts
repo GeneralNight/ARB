@@ -45,6 +45,14 @@ const PERMITIDAS: Record<string, Validador> = {
     }
     return n
   },
+  // 0 desliga. Acima de 200% nao filtraria nada e so daria falsa protecao.
+  filtroOutlierPct: (v) => {
+    const n = Number(v)
+    if (!Number.isFinite(n) || n < 0 || n > 200) {
+      throw createError({ statusCode: 400, statusMessage: 'filtroOutlierPct deve estar entre 0 e 200' })
+    }
+    return n
+  },
   minutosAntesDoInicio: (v) => {
     const n = Number(v)
     if (!Number.isFinite(n) || n < 0) throw createError({ statusCode: 400, statusMessage: 'minutosAntesDoInicio >= 0' })

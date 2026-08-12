@@ -99,6 +99,8 @@ async function ciclo(n: number): Promise<void> {
       `pre-jogo ${r.aposFiltroPreJogo} → cadencia ${r.aposCadencia} → ` +
       `odds ${r.comOdds}${r.adiados ? ` (+${r.adiados} adiados)` : ''}` +
       `${r.erros ? ` (${r.erros} erros)` : ''}` +
+      // Filtro silencioso e o jeito de o robo emudecer sem ninguem entender.
+      `${r.descartadosPorOutlier ? ` · ${r.descartadosPorOutlier} odd(s) fora de mercado` : ''}` +
       `${r.oportunidades.length ? ` · ${r.oportunidades.length} ALERTA(S)` : ''}`,
   );
 

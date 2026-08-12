@@ -128,6 +128,28 @@ const classeAtraso = computed(() =>
       <span v-if="dados.pausado" class="selo ruim">pausado</span>
     </div>
 
+    <div class="numeros">
+      <label class="filtro">
+        <input
+          type="checkbox" :checked="dados.filtroOutlierPct > 0" :disabled="salvando"
+          @change="gravar({ filtroOutlierPct: ($event.target as HTMLInputElement).checked ? 25 : 0 })"
+        />
+        filtro de odd fora de mercado
+      </label>
+      <label v-if="dados.filtroOutlierPct > 0">
+        limiar %
+        <input
+          type="number" min="1" max="200" step="5" :value="dados.filtroOutlierPct" :disabled="salvando"
+          @change="gravar({ filtroOutlierPct: Number(($event.target as HTMLInputElement).value) })"
+        />
+      </label>
+      <span class="fraco pequeno explica">
+        Descarta a casa cuja odd passe desse % acima da mediana das outras. Só o lado alto —
+        odd baixa nunca cria arbitragem falsa, então o filtro nunca inventa oportunidade,
+        só suprime.
+      </span>
+    </div>
+
     <p v-if="erro" class="ruim pequeno">erro: {{ erro }}</p>
   </section>
 </template>
@@ -150,4 +172,7 @@ const classeAtraso = computed(() =>
 }
 .numeros label { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--fraco); }
 .numeros input { width: 92px; font-family: var(--mono); }
+.numeros input[type='checkbox'] { width: auto; }
+.filtro { color: var(--texto); cursor: pointer; }
+.explica { flex-basis: 100%; font-size: 12px; line-height: 1.45; }
 </style>

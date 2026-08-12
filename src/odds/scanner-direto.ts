@@ -19,6 +19,7 @@ import {
   bestLine,
   dedupeKey,
   deveAlertar,
+  filtrarOutliers,
   montarAposta,
   type MelhorLinha,
   type OddsCasa,
@@ -86,14 +87,22 @@ export async function varrerDireto(opcoes: {
   const linhas: Array<{ jogo: Jogo; linha: MelhorLinha }> = [];
   let comOdds = 0;
   let gravados = 0;
+  let descartadosPorOutlier = 0;
 
   for (const jogo of cal.jogos) {
     const todas = coleta.porJogo.get(jogo.id);
     if (!todas || todas.length === 0) continue;
 
-    const elegiveis: OddsCasa[] = contas
+    const comConta: OddsCasa[] = contas
       ? todas.filter((c) => contas.has(c.bookmakerId))
       : todas;
+
+    // Mesmo filtro do outro pipeline. A odd direta e menos sujeita a defasagem,
+    // mas nao imune: casa pode deixar preco pendurado no proprio site.
+    const filtro = filtrarOutliers(comConta, settings.filtroOutlierPct);
+    descartadosPorOutlier += filtro.descartadas.length;
+    const elegiveis = filtro.mantidas;
+
     const linha = bestLine(elegiveis);
     if (!linha) continue;
 
@@ -134,6 +143,7 @@ export async function varrerDireto(opcoes: {
     erros: coleta.casasComFalha.length,
     adiados: 0,
     bloqueado: hostsBloqueados().length > 0,
+    descartadosPorOutlier,
     casasConsultadas: coleta.casasConsultadas,
     casasComFalha: coleta.casasComFalha,
     configsRejeitadas: coleta.configsRejeitadas,

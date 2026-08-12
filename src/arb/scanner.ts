@@ -11,7 +11,7 @@ import { comLimite, estaBloqueado, segundosAteDesbloquear } from '../flashscore/
 import { apenasPreJogo, buscarFeedDoDia, type Jogo } from '../flashscore/feed.js';
 import { buscarOdds } from '../flashscore/odds.js';
 import * as repo from '../db/repo.js';
-import { bestLine, dedupeKey, deveAlertar, montarAposta, type Aposta, type MelhorLinha, type OddsCasa } from './calc.js';
+import { bestLine, dedupeKey, deveAlertar, filtrarOutliers, montarAposta, type Aposta, type MelhorLinha, type OddsCasa } from './calc.js';
 
 export interface Oportunidade {
   jogo: Jogo;
@@ -42,6 +42,13 @@ export interface ResultadoVarredura {
   adiados: number;
   /** True se o disjuntor de rate limit esta segurando as requisicoes. */
   bloqueado: boolean;
+  /**
+   * Casas descartadas por odd fora de mercado, somadas no ciclo.
+   *
+   * Visivel de proposito: filtro silencioso e o jeito de o robo emudecer sem
+   * ninguem entender por que.
+   */
+  descartadosPorOutlier: number;
 }
 
 /**
@@ -132,6 +139,7 @@ export async function varrer(opcoes: OpcoesVarredura): Promise<ResultadoVarredur
   const oddsPorJogo = new Map<string, OddsCasa[]>();
   let comOdds = 0;
   let erros = 0;
+  let descartadosPorOutlier = 0;
 
   for (const r of resultados) {
     if (!r) {
@@ -144,8 +152,14 @@ export async function varrer(opcoes: OpcoesVarredura): Promise<ResultadoVarredur
     for (const c of odds.casas) casasVistas.set(c.bookmakerId, c.nome);
     oddsPorJogo.set(jogo.id, odds.casas);
 
-    const elegiveis = contas ? odds.casas.filter((c) => contas.has(c.bookmakerId)) : odds.casas;
-    const linha = bestLine(elegiveis);
+    const comConta = contas ? odds.casas.filter((c) => contas.has(c.bookmakerId)) : odds.casas;
+
+    // Odd defasada do agregador ja virou alerta de "arbitragem" de 25,95%.
+    // Filtrar so o lado alto: nunca inventa arbitragem, so suprime.
+    const filtro = filtrarOutliers(comConta, settings.filtroOutlierPct);
+    descartadosPorOutlier += filtro.descartadas.length;
+
+    const linha = bestLine(filtro.mantidas);
     if (!linha) continue;
 
     comOdds++;
@@ -184,5 +198,6 @@ export async function varrer(opcoes: OpcoesVarredura): Promise<ResultadoVarredur
     erros,
     adiados: vencidos.length - aVarrer.length,
     bloqueado: estaBloqueado(),
+    descartadosPorOutlier,
   };
 }

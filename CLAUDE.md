@@ -114,6 +114,25 @@ Arbitragem real medida: margem teórica −0,13% virou **R$ 0,16** em R$ 1.000
 depois de arredondar para reais inteiros — o arredondamento comeu 87% do lucro.
 Alertar o ROI teórico faria o usuário correr atrás de centavos.
 
+**Filtro de odd fora de mercado** (`filtrarOutliers`, setting `filtroOutlierPct`,
+padrão 25, `0` desliga). Descarta a casa cuja odd passe do limiar acima da
+**mediana** das outras. Nasceu de um caso real: 07/08/2026, Botafogo x Fluminense,
+"arbitragem" de **25,95%** com 5,50 numa perna contra mediana 2,41 — odd velha
+que o agregador não atualizou, não preço.
+
+**Só o lado alto é filtrado, e isso é uma garantia, não economia.** Odd baixa
+demais nunca cria arbitragem falsa: só aumenta `S`. Como remover candidatos só
+reduz o máximo de cada perna, `S` só pode subir — ou seja, **o filtro nunca
+inventa arbitragem, só suprime**. Há teste travando essa propriedade.
+
+Auditoria do histórico (`npm run auditar`): **44 de 130 alertas (34%) somem** com
+o filtro ligado; 86 sobrevivem. Ou seja, um terço dos alertas existia só por causa
+de uma odd muito acima do mercado.
+
+Mínimo de 5 casas para aplicar — abaixo disso a mediana não distingue outlier de
+dispersão normal. O total descartado por ciclo aparece no log e no painel:
+**filtro silencioso é o jeito de o robô emudecer sem ninguém entender por quê.**
+
 **`bestLine` exige três casas distintas.** Se a mesma casa tem as duas melhores
 odds, não é arbitragem — é uma casa generosa. Testa combinações (top-6 por
 resultado) e fica com o menor S, porque a escolha gulosa perderia oportunidade

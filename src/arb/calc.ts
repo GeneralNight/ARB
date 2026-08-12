@@ -63,6 +63,70 @@ export function roi(s: number): number {
   return 1 / s - 1;
 }
 
+/** Mediana simples. Robusta a outlier, que e exatamente o ponto aqui. */
+function mediana(valores: number[]): number {
+  const ordenados = [...valores].sort((a, b) => a - b);
+  const meio = Math.floor(ordenados.length / 2);
+  return ordenados.length % 2 === 0
+    ? (ordenados[meio - 1]! + ordenados[meio]!) / 2
+    : ordenados[meio]!;
+}
+
+/** Abaixo disso a mediana nao distingue outlier de dispersao normal do mercado. */
+export const MIN_CASAS_PARA_FILTRAR = 5;
+
+export interface ResultadoFiltro {
+  mantidas: OddsCasa[];
+  descartadas: Array<{ casa: OddsCasa; resultado: Resultado; odd: number; mediana: number }>;
+}
+
+/**
+ * Remove casas com odd alta demais para ser preco de mercado.
+ *
+ * Motivo: em 07/08/2026 o robo alertou "arbitragem" de 25,95% em
+ * Botafogo x Fluminense com 5,50 numa perna enquanto as outras casas
+ * precificavam ~3,25. Isso nao e mercado, e odd velha que o agregador nao
+ * atualizou — o risco nº 1 do projeto virando alerta. Arbitragem 1X2 real vive
+ * entre 0,1% e 2%; 26% entre casas grandes nao existe.
+ *
+ * **So o lado ALTO e filtrado, e isso e uma garantia, nao economia.** Odd baixa
+ * demais nunca cria arbitragem falsa: ela so aumenta S e faz a margem parecer
+ * pior. Como remover candidatos so pode reduzir o maximo de cada perna, S so
+ * pode subir — ou seja, **este filtro nunca inventa uma arbitragem, so
+ * suprime**. Errar para o lado conservador aqui custa oportunidade; errar para o
+ * outro custaria dinheiro.
+ *
+ * A casa sai inteira quando qualquer perna sua e outlier: `bestLine` ja descarta
+ * casa com perna invalida, entao filtrar por perna nao mudaria nada — e uma casa
+ * com um preco podre nao merece confianca nos outros dois.
+ */
+export function filtrarOutliers(books: OddsCasa[], limiarPct: number): ResultadoFiltro {
+  if (limiarPct <= 0 || books.length < MIN_CASAS_PARA_FILTRAR) {
+    return { mantidas: books, descartadas: [] };
+  }
+
+  const medianas: Record<Resultado, number> = {
+    casa: mediana(books.map((b) => b.casa)),
+    empate: mediana(books.map((b) => b.empate)),
+    fora: mediana(books.map((b) => b.fora)),
+  };
+
+  const teto = 1 + limiarPct / 100;
+  const mantidas: OddsCasa[] = [];
+  const descartadas: ResultadoFiltro['descartadas'] = [];
+
+  for (const b of books) {
+    const fora = RESULTADOS.find((r) => {
+      const m = medianas[r];
+      return Number.isFinite(m) && m > 0 && b[r] > m * teto;
+    });
+    if (fora) descartadas.push({ casa: b, resultado: fora, odd: b[fora], mediana: medianas[fora] });
+    else mantidas.push(b);
+  }
+
+  return { mantidas, descartadas };
+}
+
 /**
  * Escolhe a melhor odd de cada resultado exigindo tres casas DISTINTAS.
  *

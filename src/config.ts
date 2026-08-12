@@ -52,6 +52,15 @@ export interface Settings {
   janelaDias: number;
   pausado: boolean;
   fonteDeOdds: FonteDeOdds;
+  /**
+   * Descarta casa cuja odd passe deste % acima da mediana das outras.
+   *
+   * `0` desliga. Existe porque odd defasada do agregador ja gerou "arbitragem"
+   * de 25,95% (Botafogo x Fluminense, 07/08/2026: 5,50 numa perna contra ~3,25
+   * do resto do mercado). So o lado alto e filtrado, entao o filtro nunca
+   * inventa arbitragem — so suprime.
+   */
+  filtroOutlierPct: number;
 }
 
 export const SETTINGS_PADRAO: Settings = {
@@ -63,6 +72,7 @@ export const SETTINGS_PADRAO: Settings = {
   janelaDias: 0,
   pausado: false,
   fonteDeOdds: 'flashscore',
+  filtroOutlierPct: 25,
 };
 
 export const settingsSchema = z.object({
@@ -79,6 +89,12 @@ export const settingsSchema = z.object({
    * o robo — e, se parar, para calado, que e pior.
    */
   fonteDeOdds: z.enum(['flashscore', 'direto', 'ambos']).catch('flashscore'),
+  /**
+   * `catch` pelo mesmo motivo da fonte: valor torto no painel cai no padrao em
+   * vez de derrubar o ciclo. Teto de 200% porque acima disso nao filtra nada e
+   * so daria falsa sensacao de protecao.
+   */
+  filtroOutlierPct: z.number().min(0).max(200).catch(25),
 });
 
 /**

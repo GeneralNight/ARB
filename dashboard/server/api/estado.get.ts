@@ -25,6 +25,7 @@ export default defineEventHandler(async () => {
     banca: Number(porChave.banca ?? 0),
     lucroMinimoPct: Number(porChave.lucroMinimoPct ?? 0),
     janelaDias: Number(porChave.janelaDias ?? 0),
+    filtroOutlierPct: Number(porChave.filtroOutlierPct ?? 0),
     incrementoStake: Number(porChave.incrementoStake ?? 1),
     somenteCasasComConta: Boolean(porChave.somenteCasasComConta),
     ligas: { total: ligas.count ?? 0, habilitadas: ligasOn.count ?? 0 },
