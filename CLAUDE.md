@@ -227,6 +227,28 @@ o sinal mais forte e funciona em qualquer casa. `parearCompeticao` (contenção 
 tokens, não Dice) fica para as casas que só buscam por liga: Dice não vê a
 diferença entre "Série A" e "Série B", que é a única que importa.
 
+## Painel (`dashboard/`, Nuxt 4)
+
+Projeto separado, com `package.json` próprio — a raiz continua sendo só o robô.
+No Railway são **dois serviços no mesmo projeto**: o bot (raiz, `npm start`) e o
+painel (root directory `dashboard/`, `npm run build` + `npm start`).
+
+**A `service_role` fica em `runtimeConfig` sem prefixo `public`**, então existe
+só no servidor Nitro e nunca chega ao navegador. É isso que permite manter o RLS
+como está — "nega tudo, sem policy" — sem abrir furo nenhum. Todo acesso do
+browser passa por `/api`, que é do servidor.
+
+**Basic Auth em tudo, com falha fechada**: sem `DASHBOARD_PASSWORD` o painel não
+responde nada (503). O modo de falha perigoso seria subir "funcionando" e aberto,
+porque ninguém percebe — recusar tudo é barulhento, e barulhento é o certo aqui.
+
+Escreve settings por **lista branca por chave**, com validação por chave
+(`server/api/settings.patch.ts`). Curadoria de ligas, configs de casa e
+pareamento manual ficam **de fora** de propósito: são as que quebram em silêncio.
+
+Env: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `DASHBOARD_USER`,
+`DASHBOARD_PASSWORD`.
+
 ## Contrato de curadoria — NUNCA violar
 
 Estas colunas são do usuário e **nenhum upsert automático pode tocá-las**:
