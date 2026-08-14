@@ -1,0 +1,7 @@
+{
+  "bookmakerId": 1163,
+  "nome": "BetdaSorte",
+  "plataforma": "ct",
+  "host": "https://prod20348-150914204.fssb.io",
+  "bootstrap": "/br-pt/spbkv4?operatorToken=logout"
+}

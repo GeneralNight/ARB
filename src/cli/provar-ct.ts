@@ -10,7 +10,12 @@ import { readFileSync } from 'node:fs';
 import { criarAdaptadorCt } from '../odds/casas/ct.js';
 import { validarConfig } from '../odds/esquema.js';
 
-const bruto = JSON.parse(readFileSync('src/odds/casas/bet7k.json', 'utf8'));
+// Aceita qualquer semente CT: `npm run provar:ct -- betdasorte`. Uma casa nova
+// da plataforma e uma linha de config, entao provar uma nova tem que ser barato
+// tambem — senao a config entra no banco sem ninguem ter olhado.
+const casa = process.argv[2] ?? 'bet7k';
+const arquivo = casa.endsWith('.json') ? casa : `src/odds/casas/${casa}.json`;
+const bruto = JSON.parse(readFileSync(arquivo, 'utf8'));
 const r = validarConfig(bruto);
 if (!r.ok) {
   console.error('config invalida:', r.erro);

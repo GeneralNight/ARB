@@ -242,9 +242,19 @@ Não cabe no motor declarativo: a resposta é **relacional** (`events`, `markets
   (`event.competitorIds[0]` e o `competitorId` da cotação tipo 1). Discordando, o
   jogo é descartado. É a checagem que faltava do lado do Flashscore.
 
-**Plataforma CT/Sportradar — Bet7k** (`src/odds/casas/ct.ts`). Verificada ao vivo
-em 14/08/2026. É o primeiro adaptador **com estado**, porque toda chamada exige
-credencial:
+**Plataforma CT/Sportradar — Bet7k e BetdaSorte** (`src/odds/casas/ct.ts`).
+Verificada ao vivo em 14/08/2026. É o primeiro adaptador **com estado**, porque
+toda chamada exige credencial. Casa nova da plataforma é **só uma linha de
+config** — muda o `host`:
+
+| casa | host |
+|---|---|
+| Bet7k | `prod20350-kbet-152319626.fssb.io` |
+| BetdaSorte | `prod20348-150914204.fssb.io` |
+
+Achar o host é um `grep` por `fssb.io` nas páginas da casa. **A sondagem erra
+aqui**: classificou a BetdaSorte como Digitain porque o marcador Digitain está
+na página, mas o sportsbook é CT. Provar custa `npm run provar:ct -- <casa>`.
 
 ```
 GET  {host}/br-pt/spbkv4?operatorToken=logout  → Set-Cookie: session, authorization
@@ -471,9 +481,23 @@ LuvaBet) — um adaptador cobre as nove, é o maior ganho por hora disponível.
 Headers de navegador **não** vencem o bloqueio (testado): é fingerprint de
 TLS/HTTP2.
 
-**10 casas com adaptador**: Superbet (declarativa) + as 9 do Altenar. Medido em
-`scan:direto`: 12 jogos com odds, quase todos com as 10 casas, margens de 5,3% a
-8,5% — nenhuma arbitragem, coerente com o baseline.
+**12 casas com adaptador**: Superbet (declarativa) + 9 do Altenar + Bet7k e
+BetdaSorte (CT). Medido em `scan:direto` com 11: 61 jogos com odds, melhor margem
+2,60% — nenhuma arbitragem, coerente com o baseline.
+
+**As 6 casas abertas que faltam, já classificadas** (14/08/2026) — o que sobrou
+não é barato, ao contrário do que a sondagem sugeria:
+
+| casa | plataforma | situação |
+|---|---|---|
+| Casadeapostas | BookmakerNEXT (`next-client-api.bookmakernext.com`) | aberta, responde JSON — falta achar as rotas |
+| BrasilBet | BetBy (`socket.io`) | odds por WebSocket, não por listagem |
+| Betnacional | API atrás de Cloudflare WAF (`betnacional.bet6.com.br`) | 403 de borda, mesma classe da bet365 |
+| BetEsporte, Estrelabet | citam Sportradar, **sem host `fssb`** | não são CT; não investigadas |
+| SeguroBet | BetConstruct | não investigada |
+
+Lição: "sem marcador de plataforma" **não** quer dizer "API própria simples".
+Quer dizer que o marcador está escondido no bundle.
 
 ### O que a divergência medida revelou
 
