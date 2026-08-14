@@ -392,12 +392,22 @@ nível INFO — é o desenho pretendido, não um problema. Views usam
   **Lição: métrica agregada certa não prova rótulo certo.**
   **Segunda lição, de 14/08: fixture não pega isto.** É captura estática, então
   trava o código mas não percebe o payload virar — os 160 testes passavam verdes
-  com a produção invertida. O detector é `npm run divergencia`, que compara com
-  casas diretas de rótulo explícito (`VenueRole` na CT, dupla fonte no Altenar).
-  **Rodar depois de qualquer mexida no parser de odds, e de vez em quando sem
-  motivo nenhum.** `fixtures/odds-direcao.json` (Rio Ave x Porto, favorito
-  inequívoco) trava o código contra reinversão acidental, que é o que fixture
-  sabe fazer.
+  com a produção invertida. Só uma segunda fonte com rótulo explícito enxerga
+  (`VenueRole` na CT, dupla fonte no Altenar).
+  `fixtures/odds-direcao.json` (Rio Ave x Porto, favorito inequívoco) cobre o
+  outro lado — reinversão acidental no código, que é o que fixture sabe fazer.
+
+  **Hoje há sentinela automática** (`analisarInversao`, chamada pelo loop):
+  a cada 30 ciclos em modo `flashscore`, e a cada ciclo em `ambos` (onde as duas
+  fontes já estão em mãos). Acusa quando ≥50% das pernas comparadas estão
+  espelhadas, com no mínimo 20 comparações, e avisa no Telegram no máximo 1×/h.
+  Medido: **0% normal · 90,9% com a inversão reintroduzida** — os limiares não
+  são delicados porque a inversão é sistemática, não estatística.
+  **Não suprime o alerta quando acusa**: o ROI segue correto e a arbitragem pode
+  ser real, então calar perderia justamente a mensagem que o robô existe para
+  mandar. O aviso pede para conferir a perna antes de apostar.
+  `npm run divergencia` imprime o mesmo veredito, pela mesma função — o comando
+  manual e a checagem automática não podem discordar.
 - **`bestLine` precisa de 3 casas distintas** — abaixo disso o sistema direto é
   sempre silencioso, por aritmética, não por defeito. Virar `fonteDeOdds` para
   `direto` com menos de 3 adaptadores cala o robô.

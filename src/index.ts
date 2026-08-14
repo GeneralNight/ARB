@@ -9,13 +9,29 @@ import { anteriorDaFamilia, mereceRealerta } from './arb/calc.js';
 import { varrer, type ResultadoVarredura } from './arb/scanner.js';
 import { estaBloqueado, segundosAteDesbloquear } from './flashscore/client.js';
 import { varrerDireto } from './odds/scanner-direto.js';
-import { compararTudo } from './odds/divergencia.js';
+import { analisarInversao, compararTudo } from './odds/divergencia.js';
+import { coletarOdds } from './odds/coletor.js';
 import * as repo from './db/repo.js';
-import { enviarAlerta, processarUpdates, telegramConfigurado } from './telegram/bot.js';
+import { enviar, enviarAlerta, processarUpdates, telegramConfigurado } from './telegram/bot.js';
 import type { Settings } from './config.js';
+import type { OddsCasa } from './arb/calc.js';
 
 const INTERVALO_CICLO_MS = 60_000;
 const LIMPEZA_A_CADA_CICLOS = 60; // ~1x por hora
+
+/**
+ * De quanto em quanto a sentinela de inversao roda em modo `flashscore`.
+ *
+ * 30 min e o meio-termo: a inversao anterior passou DOIS DIAS despercebida, e
+ * meia hora de exposicao e barata perto de uma coleta direta a cada ciclo. Em
+ * modo `ambos` ela roda todo ciclo, porque ali as duas fontes ja estao em maos.
+ */
+const SENTINELA_A_CADA_CICLOS = 30;
+
+/** Silencio minimo entre dois avisos de inversao no Telegram. */
+const SILENCIO_DO_ALARME_MS = 60 * 60_000;
+
+let ultimoAlarmeDeInversao = 0;
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const agora = () => new Date().toLocaleTimeString('pt-BR');
@@ -36,11 +52,23 @@ for (const sinal of ['SIGINT', 'SIGTERM'] as const) {
  * para `flashscore` — misturar odd confiavel com odd defasada dentro do mesmo
  * `bestLine` e exatamente o defeito que o sistema direto existe para eliminar.
  */
-async function varredura(
-  settings: Settings,
-): Promise<{ principal: ResultadoVarredura | null; fonte: string }> {
+interface Varredura {
+  principal: ResultadoVarredura | null;
+  fonte: string;
+  /**
+   * As duas fontes cruas, quando o ciclo ja as tem em maos.
+   *
+   * Sao a materia-prima da sentinela de inversao. Devolver aqui e de graca: os
+   * bytes ja foram baixados.
+   */
+  oddsFlashscore?: Map<string, OddsCasa[]>;
+  oddsDireto?: Map<string, OddsCasa[]>;
+}
+
+async function varredura(settings: Settings): Promise<Varredura> {
   if (settings.fonteDeOdds === 'flashscore') {
-    return { principal: await varrer({ settings }), fonte: 'flashscore' };
+    const r = await varrer({ settings });
+    return { principal: r, fonte: 'flashscore', oddsFlashscore: r.oddsPorJogo };
   }
 
   const direto = await varrerDireto({ settings }).catch((err) => {
@@ -71,10 +99,89 @@ async function varredura(
       }
     }
 
-    if (!direto && antigo) return { principal: antigo, fonte: 'flashscore (direto falhou)' };
+    if (!direto && antigo) {
+      return {
+        principal: antigo,
+        fonte: 'flashscore (direto falhou)',
+        oddsFlashscore: antigo.oddsPorJogo,
+      };
+    }
+
+    return {
+      principal: direto,
+      fonte: 'direto',
+      oddsFlashscore: antigo?.oddsPorJogo,
+      oddsDireto: direto?.oddsPorJogo,
+    };
   }
 
-  return { principal: direto, fonte: 'direto' };
+  return { principal: direto, fonte: 'direto', oddsDireto: direto?.oddsPorJogo };
+}
+
+/**
+ * Sentinela: mandante e visitante trocados entre as duas fontes.
+ *
+ * Existe porque este bug ja aconteceu duas vezes e nao tem sintoma. O ROI
+ * continua certo (S e a soma dos tres maximos, e trocar dois rotulos nao muda a
+ * soma), os testes continuam verdes (fixture e captura estatica) e o robo segue
+ * alertando — so que mandando apostar na perna errada. Em 14/08/2026 viveu dois
+ * dias assim.
+ *
+ * So a segunda fonte enxerga, porque as casas diretas tem rotulo EXPLICITO
+ * (`VenueRole` na CT, dupla fonte no Altenar) enquanto o Flashscore so tem
+ * ordem de aparicao.
+ */
+async function conferirInversao(r: ResultadoVarredura, v: Varredura): Promise<void> {
+  const fs = v.oddsFlashscore;
+  if (!fs || fs.size === 0) return;
+
+  let direto = v.oddsDireto;
+  if (!direto) {
+    // Em modo `flashscore` a outra fonte nao rodou. Buscar so as odds diretas
+    // dos jogos que JA tem odd do Flashscore e barato — o custo do direto e por
+    // casa, nao por jogo — e nao grava nada: sentinela mede, nao registra.
+    const coleta = await coletarOdds(r.linhas.map((l) => l.jogo));
+    direto = coleta.porJogo;
+  }
+
+  const veredito = analisarInversao(fs, direto);
+  if (veredito.comparadas === 0) return;
+
+  if (!veredito.invertido) {
+    console.log(
+      `   sentinela: ${veredito.comparadas} perna(s) conferidas, ` +
+        `${veredito.espelhadas} espelhada(s) — direcao ok`,
+    );
+    return;
+  }
+
+  const pct = (veredito.fracaoEspelhada * 100).toFixed(1);
+  const ex = veredito.exemplos[0];
+  console.error(
+    `[${agora()}] !!! INVERSAO: ${veredito.espelhadas}/${veredito.comparadas} (${pct}%) ` +
+      `pernas espelhadas contra as casas diretas` +
+      (ex ? ` — ex.: ${ex.nome} fs ${ex.fs.casa}/${ex.fs.empate}/${ex.fs.fora} vs dir ${ex.dir.casa}/${ex.dir.empate}/${ex.dir.fora}` : ''),
+  );
+
+  // Silencio entre avisos: o alarme repetiria a cada sentinela ate alguem
+  // consertar, e alarme repetido vira ruido que se aprende a ignorar.
+  if (Date.now() - ultimoAlarmeDeInversao < SILENCIO_DO_ALARME_MS) return;
+  ultimoAlarmeDeInversao = Date.now();
+
+  if (!telegramConfigurado()) return;
+  try {
+    await enviar(
+      `⚠️ <b>Mandante/visitante possivelmente trocados</b>\n\n` +
+        `${veredito.espelhadas} de ${veredito.comparadas} pernas (${pct}%) estao espelhadas ` +
+        `entre o Flashscore e as casas diretas: o empate bate e casa/fora trocam.\n\n` +
+        `Os alertas seguem com o ROI certo, mas apontando a perna errada. ` +
+        `<b>Nao apostar ate conferir.</b>\n\n` +
+        `Diagnostico: <code>npm run divergencia</code> · ` +
+        `<code>npm run provar:ordem -- &lt;id&gt;</code>`,
+    );
+  } catch (err) {
+    console.error('   falha ao avisar da inversao no Telegram:', err);
+  }
 }
 
 async function ciclo(n: number): Promise<void> {
@@ -91,7 +198,8 @@ async function ciclo(n: number): Promise<void> {
     return;
   }
 
-  const { principal: r, fonte } = await varredura(settings);
+  const v = await varredura(settings);
+  const { principal: r, fonte } = v;
   if (!r) return;
 
   console.log(
@@ -106,6 +214,22 @@ async function ciclo(n: number): Promise<void> {
 
   if (r.aposFiltroDeLiga === 0 && r.jogosNoFeed > 0) {
     console.log('   nenhum jogo da janela pertence as ligas habilitadas — /janela para ampliar');
+  }
+
+  // De graca quando as duas fontes ja rodaram; a cada SENTINELA_A_CADA_CICLOS
+  // quando so o Flashscore rodou e a coleta direta precisa ser paga.
+  //
+  // Nao suprime o alerta quando acusa: o ROI segue correto e a arbitragem pode
+  // ser real, entao calar perderia a mensagem que o robo existe para mandar. O
+  // aviso diz para conferir antes de apostar — que e o certo com o rotulo sob
+  // suspeita, e e o que o usuario ja faz de qualquer forma.
+  const temAsDuas = !!v.oddsFlashscore && !!v.oddsDireto;
+  if (v.oddsFlashscore && (temAsDuas || n % SENTINELA_A_CADA_CICLOS === 0)) {
+    try {
+      await conferirInversao(r, v);
+    } catch (err) {
+      console.error('   sentinela de inversao falhou:', err instanceof Error ? err.message : err);
+    }
   }
 
   for (const op of r.oportunidades) {

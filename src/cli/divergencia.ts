@@ -15,7 +15,7 @@
 import * as repo from '../db/repo.js';
 import { varrer } from '../arb/scanner.js';
 import { varrerDireto } from '../odds/scanner-direto.js';
-import { compararTudo } from '../odds/divergencia.js';
+import { analisarInversao, compararTudo } from '../odds/divergencia.js';
 
 async function main(): Promise<void> {
   const settings = await repo.lerSettings();
@@ -73,6 +73,22 @@ async function main(): Promise<void> {
     `\n${divs.length} divergencia(s) em ${pernas / 3 || 0} casa-jogo comparadas` +
       `${pernas > 0 ? ` (${((divs.length / (pernas / 3)) * 100).toFixed(1)}%)` : ''}`,
   );
+
+  // Mesma funcao que a sentinela do loop principal usa. Roda aqui para que o
+  // comando manual e a checagem automatica nunca possam discordar.
+  const inv = analisarInversao(antigo.oddsPorJogo, direto.oddsPorJogo);
+  const pct = (inv.fracaoEspelhada * 100).toFixed(1);
+  if (inv.invertido) {
+    console.log(
+      `\n!!! INVERSAO: ${inv.espelhadas}/${inv.comparadas} pernas (${pct}%) espelhadas — ` +
+        `empate bate e casa/fora trocam.\n` +
+        `    O ROI dos alertas segue certo; o ROTULO nao. Ver src/flashscore/odds.ts.`,
+    );
+  } else {
+    console.log(
+      `direcao mandante/visitante: ok (${inv.espelhadas}/${inv.comparadas} espelhadas, ${pct}%)`,
+    );
+  }
 
   if (gravar) {
     const n = await repo.gravarDivergencias(divs);
