@@ -66,18 +66,33 @@ export function parseOdds(resp: OddsResponse): OddsDoJogo | null {
 
   // Os ids de participante nao vem rotulados — nao ha `participantId`,
   // `homeAway` nem `side` em lugar nenhum do payload (conferido). A ordem de
-  // aparicao e o unico sinal, e ela e VISITANTE primeiro, mandante depois.
+  // aparicao e o unico sinal, e ela e MANDANTE primeiro, visitante depois.
   //
-  // Estava invertido ate 12/08/2026. O erro se escondia bem: como todas as
-  // casas vinham espelhadas juntas, `bestLine` continuava achando a arbitragem
-  // certa (S e a soma dos tres maximos; trocar dois rotulos nao muda a soma) e
-  // o ROI saia correto. So o ALERTA mentia — mandava apostar no mandante pelo
-  // preco do visitante, e a arbitragem morria na hora de executar.
+  // ESTA ORDEM JA VIROU DUAS VEZES. Foi lida como mandante-primeiro ate
+  // 12/08/2026, invertida naquele dia, e medida como mandante-primeiro de novo
+  // em 14/08/2026. Nao ha garantia de que fique — e o unico sinal disponivel e
+  // posicional, entao a estabilidade nao depende de nos.
   //
-  // Descoberto comparando com a odd direta da Superbet: nos 19 jogos pareados,
-  // os 19 tinham empate identico e casa/fora trocados. Confirmado por sentido
-  // futebolistico em Copenhagen x Debrecen (1,19 x 11,00), Hearts x Benfica e
-  // Rangers x Jagiellonia.
+  // A medicao de 14/08: `npm run divergencia` comparou 23 jogos contra 11 casas
+  // diretas e deu 230 de 231 pernas espelhadas, com o EMPATE identico em todas
+  // e so casa/fora trocando — a assinatura exata da inversao. Confirmado por
+  // sentido futebolistico em dois jogos de favorito obvio:
+  //
+  //   Rio Ave x Porto        participante #1 = 7,40 · #2 = 1,40
+  //   Leuven x Club Brugge   participante #1 = 6,80 · #2 = 1,38
+  //
+  // Em ambos o #1 e o mandante azarao e o #2 e o visitante favorito.
+  //
+  // O erro se esconde bem: como todas as casas vem espelhadas juntas,
+  // `bestLine` continua achando a arbitragem certa (S e a soma dos tres
+  // maximos; trocar dois rotulos nao muda a soma) e o ROI sai correto. So o
+  // ALERTA mente — manda apostar no mandante pelo preco do visitante, e a
+  // arbitragem morre na hora de executar.
+  //
+  // Fixture nao pega isso: e captura estatica, entao trava o codigo mas nao
+  // percebe o payload virar. Quem detecta e `npm run divergencia`, que compara
+  // com as casas diretas — essas tem rotulo explicito (`VenueRole` na CT, dupla
+  // fonte no Altenar). Rodar depois de qualquer mexida aqui.
   const participantes: string[] = [];
   for (const linha of linhas) {
     for (const item of linha.odds) {
@@ -86,7 +101,7 @@ export function parseOdds(resp: OddsResponse): OddsDoJogo | null {
       }
     }
   }
-  const [idVisitante, idMandante] = participantes;
+  const [idMandante, idVisitante] = participantes;
   if (!idMandante || !idVisitante) return null;
 
   const casas: OddsCasa[] = [];

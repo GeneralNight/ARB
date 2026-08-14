@@ -101,6 +101,32 @@ export const configAltenarSchema = z.object({
 });
 
 /**
+ * Casa em plataforma CT/Sportradar (Bet7k e afins).
+ *
+ * Nao cabe no declarativo por dois motivos, cada um bastando sozinho: as odds
+ * vem em requisicao SEPARADA da lista de jogos (o motor pressupoe odds
+ * aninhadas no evento), e toda chamada exige credencial.
+ *
+ * A credencial e anonima e sai de um GET comum — `customerType: "anon"`,
+ * `customerId: -1`. Nao ha login nem navegador no caminho, o que separa esta
+ * casa das de `cf_clearance`: o token e emitido, nao arrancado.
+ */
+export const configCtSchema = z.object({
+  ...comum,
+  plataforma: z.literal('ct'),
+  /** Origem do backend da casa, ex.: `https://prod20350-kbet-152319626.fssb.io`. */
+  host: z.string().url(),
+  /**
+   * Caminho que emite o token anonimo por `Set-Cookie`.
+   *
+   * `operatorToken=logout` e o que pede a sessao ANONIMA. Sem ele a pagina
+   * assume operador logado e nao emite nada — foi o detalhe que fez a casa
+   * parecer inviavel na primeira sondagem.
+   */
+  bootstrap: z.string().min(1).default('/br-pt/spbkv4?operatorToken=logout'),
+});
+
+/**
  * `plataforma` ausente = declarativa.
  *
  * O preprocess existe porque `discriminatedUnion` nao aplica default no proprio
@@ -112,12 +138,13 @@ export const configCasaSchema = z.preprocess(
     v && typeof v === 'object' && !Array.isArray(v) && !('plataforma' in v)
       ? { ...(v as Record<string, unknown>), plataforma: 'declarativa' }
       : v,
-  z.discriminatedUnion('plataforma', [configDeclarativaSchema, configAltenarSchema]),
+  z.discriminatedUnion('plataforma', [configDeclarativaSchema, configAltenarSchema, configCtSchema]),
 );
 
 export type ConfigCasa = z.infer<typeof configCasaSchema>;
 export type ConfigDeclarativa = z.infer<typeof configDeclarativaSchema>;
 export type ConfigAltenar = z.infer<typeof configAltenarSchema>;
+export type ConfigCt = z.infer<typeof configCtSchema>;
 export type Extracao = z.infer<typeof extracaoSchema>;
 
 /**

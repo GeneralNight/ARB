@@ -19,6 +19,8 @@
     "sondar": "tsx src/cli/sondar.ts",
     "comparar": "tsx src/cli/comparar.ts",
     "divergencia": "tsx src/cli/divergencia.ts",
+    "provar:ct": "tsx src/cli/provar-ct.ts",
+    "provar:ordem": "tsx src/cli/provar-ordem.ts",
     "auditar": "tsx src/cli/auditar-alertas.ts",
     "simular": "tsx src/cli/simular-lucro.ts",
     "test:telegram": "tsx src/cli/test-telegram.ts",

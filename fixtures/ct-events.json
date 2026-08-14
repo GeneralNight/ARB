@@ -1,0 +1,2055 @@
+{
+ "data": [
+  {
+   "_id": "875537292310450176",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "845960725016158208",
+   "LeagueId": "870749189062287360",
+   "LeagueOrder": 94000065,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "6759",
+   "Metadata": {
+    "HasPlayerIncidentCoverage": "false",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "CR",
+   "RegionId": "48",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": false,
+    "IsCashOutEnabled": true,
+    "IsExposureEnabled": false,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "EarlyPayout": null
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [],
+   "TotalActiveMarketsCount": 14,
+   "TotalDynamicMarketsCount": 0,
+   "TotalMarketsCount": 14,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "AD Carmelita vs Consultants Moravia",
+   "EventName": "AD Carmelita vs Consultants Moravia",
+   "LeagueName": "Costa Rica - Segunda Divisão",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "329935",
+     "Name": "AD Carmelita",
+     "Country": "Costa Rica",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "454867",
+     "Name": "Consultants Moravia",
+     "Country": "Internacional",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "Costa Rica",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-14T21:00:00.000Z",
+   "UrlEventName": "AD-Carmelita-vs-Consultants-Moravia",
+   "UrlLeagueName": "Costa-Rica-Segunda-Divisão",
+   "UrlRegionName": "Costa-Rica",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "873504566241685504",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "845939018909949952",
+   "LeagueId": "796283300389105664",
+   "LeagueOrder": 23000021,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "931",
+   "Metadata": {
+    "AwayShirtColorPrimary": "#0000FF",
+    "HasPlayerIncidentCoverage": "false",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "PY",
+   "RegionId": "182",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": true,
+    "IsCashOutEnabled": true,
+    "IsExposureEnabled": false,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "EarlyPayout": 2
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [],
+   "TotalActiveMarketsCount": 96,
+   "TotalDynamicMarketsCount": 34,
+   "TotalMarketsCount": 40,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "Deportivo Recoleta vs 2 de Mayo",
+   "EventName": "Deportivo Recoleta vs 2 de Mayo",
+   "LeagueName": "Paraguai - 1ª Divisão",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "208266526242119680",
+     "Name": "Deportivo Recoleta",
+     "Country": "Paraguai",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "20040",
+     "Name": "2 de Mayo",
+     "Country": "Internacional",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "Paraguai",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-14T21:30:00.000Z",
+   "UrlEventName": "Deportivo-Recoleta-vs-2-de-Mayo",
+   "UrlLeagueName": "Paraguai-1ª-Divisão",
+   "UrlRegionName": "Paraguai",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "874405873039208448",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "845960725016158208",
+   "LeagueId": "741205235494686721",
+   "LeagueOrder": 94000129,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "295841143873355776",
+   "Metadata": {
+    "HasPlayerIncidentCoverage": "false",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "US",
+   "RegionId": "227",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": false,
+    "IsCashOutEnabled": true,
+    "IsExposureEnabled": false,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "EarlyPayout": null
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [],
+   "TotalActiveMarketsCount": 29,
+   "TotalDynamicMarketsCount": 0,
+   "TotalMarketsCount": 23,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "Real Monarchs SLC vs Minnesota United FC II",
+   "EventName": "Real Monarchs SLC vs Minnesota United FC II",
+   "LeagueName": "EUA - MLS Next Pro",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "247398",
+     "Name": "Real Monarchs SLC",
+     "Country": "Estados Unidos",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "298524651674664960",
+     "Name": "Minnesota United FC II",
+     "Country": "Estados Unidos",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "Estados Unidos",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-14T21:30:00.000Z",
+   "UrlEventName": "Real-Monarchs-SLC-vs-Minnesota-United-FC-II",
+   "UrlLeagueName": "EUA-MLS-Next-Pro",
+   "UrlRegionName": "Estados-Unidos",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "874408533205217280",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "845932749700538368",
+   "LeagueId": "804702524618911744",
+   "LeagueOrder": 22000028,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "286",
+   "Metadata": {
+    "AwayShirtColorPrimary": "#000000",
+    "HasPlayerIncidentCoverage": "false",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "UY",
+   "RegionId": "228",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": true,
+    "IsCashOutEnabled": true,
+    "IsExposureEnabled": false,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "EarlyPayout": null
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [],
+   "TotalActiveMarketsCount": 130,
+   "TotalDynamicMarketsCount": 52,
+   "TotalMarketsCount": 40,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "CA Boston River vs Danúbio",
+   "EventName": "CA Boston River vs Danúbio",
+   "LeagueName": "Uruguai - Primeira Divisão",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "261605",
+     "Name": "CA Boston River",
+     "Country": "Uruguai",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "2999",
+     "Name": "Danúbio",
+     "Country": "Internacional",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "Uruguai",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-14T22:00:00.000Z",
+   "UrlEventName": "CA-Boston-River-vs-Danúbio",
+   "UrlLeagueName": "Uruguai-Primeira-Divisão",
+   "UrlRegionName": "Uruguai",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "875692934803329024",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "845960725016158208",
+   "LeagueId": "860500130305200128",
+   "LeagueOrder": 94000106,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "198025242244706304",
+   "Metadata": {
+    "HasPlayerIncidentCoverage": "false",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "PY",
+   "RegionId": "182",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": false,
+    "IsCashOutEnabled": true,
+    "IsExposureEnabled": false,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "EarlyPayout": null
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [],
+   "TotalActiveMarketsCount": 27,
+   "TotalDynamicMarketsCount": 0,
+   "TotalMarketsCount": 23,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "Club Fernando de la Mora vs Benjamin Aceval",
+   "EventName": "Club Fernando de la Mora vs Benjamin Aceval",
+   "LeagueName": "Paraguai - Segunda Divisão",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "253354",
+     "Name": "Club Fernando de la Mora",
+     "Country": "Paraguai",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "211131947416821760",
+     "Name": "Benjamin Aceval",
+     "Country": "Paraguai",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "Paraguai",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-14T22:00:00.000Z",
+   "UrlEventName": "Club-Fernando-de-la-Mora-vs-Benjamin-Aceval",
+   "UrlLeagueName": "Paraguai-Segunda-Divisão",
+   "UrlRegionName": "Paraguai",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "875516620288921600",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "463683729655939072",
+   "LeagueId": "817786800449073152",
+   "LeagueOrder": 110003001,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "9971",
+   "Metadata": {
+    "HasPlayerIncidentCoverage": "false",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "CL",
+   "RegionId": "44",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": false,
+    "IsCashOutEnabled": true,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "IsEarlySettlementEnabled": true,
+    "EarlyPayout": null
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [],
+   "TotalActiveMarketsCount": 14,
+   "TotalDynamicMarketsCount": 0,
+   "TotalMarketsCount": 14,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "CD Atlético del Oriente vs Chimbarongo FC",
+   "EventName": "CD Atlético del Oriente vs Chimbarongo FC",
+   "LeagueName": "Chile - Terceira Divisão",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "229689986763829248",
+     "Name": "CD Atlético del Oriente",
+     "Country": "Colômbia",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "421657811672752128",
+     "Name": "Chimbarongo FC",
+     "Country": "Internacional",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "Chile",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-14T22:00:00.000Z",
+   "UrlEventName": "CD-Atlético-del-Oriente-vs-Chimbarongo-FC",
+   "UrlLeagueName": "Chile-Terceira-Divisão",
+   "UrlRegionName": "Chile",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "873714184737800192",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "738736442951626752",
+   "LeagueId": "809040415499300864",
+   "LeagueOrder": 21000001,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "1439",
+   "Metadata": {
+    "AwayShirtColorPrimary": "#000000",
+    "HasPlayerIncidentCoverage": "true",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "BR",
+   "RegionId": "29",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": true,
+    "IsCashOutEnabled": true,
+    "IsExposureEnabled": false,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "EarlyPayout": 2
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [
+    "FastMarket"
+   ],
+   "TotalActiveMarketsCount": 225,
+   "TotalDynamicMarketsCount": 60,
+   "TotalMarketsCount": 96,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "Ponte Preta vs Náutico Capibaribe",
+   "EventName": "Ponte Preta vs Náutico Capibaribe",
+   "LeagueName": "Brasileirão Série B",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "1895",
+     "Name": "Ponte Preta",
+     "Country": "Internacional",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "3428",
+     "Name": "Náutico Capibaribe",
+     "Country": "Internacional",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "Brasil",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-14T22:30:00.000Z",
+   "UrlEventName": "Ponte-Preta-vs-Náutico-Capibaribe",
+   "UrlLeagueName": "Brasileirão-Série-B",
+   "UrlRegionName": "Brasil",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "873714184754663424",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "738736442951626752",
+   "LeagueId": "809040415499300864",
+   "LeagueOrder": 21000001,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "1439",
+   "Metadata": {
+    "HomeShirtColorPrimary": "#000000",
+    "AwayShirtColorPrimary": "#FF0000",
+    "HasPlayerIncidentCoverage": "true",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "BR",
+   "RegionId": "29",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": true,
+    "IsCashOutEnabled": true,
+    "IsExposureEnabled": false,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "EarlyPayout": 2
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [
+    "FastMarket"
+   ],
+   "TotalActiveMarketsCount": 219,
+   "TotalDynamicMarketsCount": 58,
+   "TotalMarketsCount": 94,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "São Bernardo vs Botafogo SP",
+   "EventName": "São Bernardo vs Botafogo SP",
+   "LeagueName": "Brasileirão Série B",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "85522",
+     "Name": "São Bernardo",
+     "Country": "Internacional",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "61787",
+     "Name": "Botafogo SP",
+     "Country": "Internacional",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "Brasil",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-14T22:30:00.000Z",
+   "UrlEventName": "São-Bernardo-vs-Botafogo-SP",
+   "UrlLeagueName": "Brasileirão-Série-B",
+   "UrlRegionName": "Brasil",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "876084144290263040",
+   "IsLive": false,
+   "IsSubstituteAvailable": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "845960725016158208",
+   "LeagueId": "853511314918879232",
+   "LeagueOrder": 94000008,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "204536378036592640",
+   "Metadata": {
+    "HasPlayerIncidentCoverage": "false",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "AR",
+   "RegionId": "11",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": false,
+    "IsCashOutEnabled": true,
+    "IsExposureEnabled": false,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "EarlyPayout": null
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [],
+   "TotalActiveMarketsCount": 14,
+   "TotalDynamicMarketsCount": 0,
+   "TotalMarketsCount": 14,
+   "Type": "Fixture",
+   "BetslipLine": "CA Central Norte vs Don Orione",
+   "EventName": "CA Central Norte vs Don Orione",
+   "LeagueName": "Argentina - Liga Regional",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "349542",
+     "Name": "CA Central Norte",
+     "Country": "Internacional",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "1174354",
+     "Name": "Don Orione",
+     "Country": "Argentina",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "Argentina",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-14T22:30:00.000Z",
+   "UrlEventName": "CA-Central-Norte-vs-Don-Orione",
+   "UrlLeagueName": "Argentina-Liga-Regional",
+   "UrlRegionName": "Argentina",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "874336112762810368",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "845932749700538368",
+   "LeagueId": "854230230515343360",
+   "LeagueOrder": 22000005,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "115",
+   "Metadata": {
+    "HasPlayerIncidentCoverage": "true",
+    "HomeShirtColorPrimary": "#FFFF00",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "CL",
+   "RegionId": "44",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": true,
+    "IsCashOutEnabled": true,
+    "IsExposureEnabled": false,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "EarlyPayout": 2
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [],
+   "TotalActiveMarketsCount": 162,
+   "TotalDynamicMarketsCount": 67,
+   "TotalMarketsCount": 51,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "Uni De Concepción vs Dep La Serena",
+   "EventName": "Uni De Concepción vs Dep La Serena",
+   "LeagueName": "Chile - Primera League",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "6906",
+     "Name": "Uni De Concepción",
+     "Country": "Internacional",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "15577",
+     "Name": "Dep La Serena",
+     "Country": "Internacional",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "Chile",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-14T23:00:00.000Z",
+   "UrlEventName": "Uni-De-Concepción-vs-Dep-La-Serena",
+   "UrlLeagueName": "Chile-Primera-League",
+   "UrlRegionName": "Chile",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "873123282646568960",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "845939018909949952",
+   "LeagueId": "799381725670277120",
+   "LeagueOrder": 23000022,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "203110137349808128",
+   "Metadata": {
+    "HomeShirtColorPrimary": "#00FFFF",
+    "HasPlayerIncidentCoverage": "true",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "PE",
+   "RegionId": "170",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": true,
+    "IsCashOutEnabled": true,
+    "IsExposureEnabled": false,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "EarlyPayout": 2
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [
+    "FastMarket"
+   ],
+   "TotalActiveMarketsCount": 153,
+   "TotalDynamicMarketsCount": 44,
+   "TotalMarketsCount": 82,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "Cusco FC vs Juan Pablo II",
+   "EventName": "Cusco FC vs Juan Pablo II",
+   "LeagueName": "Peru - Liga 1",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "101012",
+     "Name": "Cusco FC",
+     "Country": "Perú",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "484814887026229248",
+     "Name": "Juan Pablo II",
+     "Country": "Perú",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "Perú",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-14T23:00:00.000Z",
+   "UrlEventName": "Cusco-FC-vs-Juan-Pablo-II",
+   "UrlLeagueName": "Peru-Liga-1",
+   "UrlRegionName": "Perú",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "875742693417152512",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "738736442846773248",
+   "LeagueId": "865840341339865088",
+   "LeagueOrder": 40000002,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "6428",
+   "Metadata": {
+    "HasPlayerIncidentCoverage": "false",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "BR",
+   "RegionId": "29",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": true,
+    "IsCashOutEnabled": true,
+    "IsExposureEnabled": false,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "EarlyPayout": null
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [],
+   "TotalActiveMarketsCount": 41,
+   "TotalDynamicMarketsCount": 14,
+   "TotalMarketsCount": 23,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "Bandeirante EC vs Grêmio Prudente",
+   "EventName": "Bandeirante EC vs Grêmio Prudente",
+   "LeagueName": "Campeonato Paulista",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "345294",
+     "Name": "Bandeirante EC",
+     "Country": "Internacional",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "217188636305924096",
+     "Name": "Grêmio Prudente",
+     "Country": "Internacional",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "Brasil",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-14T23:00:00.000Z",
+   "UrlEventName": "Bandeirante-EC-vs-Grêmio-Prudente",
+   "UrlLeagueName": "Campeonato-Paulista",
+   "UrlRegionName": "Brasil",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "875516620225925120",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "845960725016158208",
+   "LeagueId": "741205235494686721",
+   "LeagueOrder": 94000129,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "295841143873355776",
+   "Metadata": {
+    "HasPlayerIncidentCoverage": "false",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "US",
+   "RegionId": "227",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": false,
+    "IsCashOutEnabled": true,
+    "IsExposureEnabled": false,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "EarlyPayout": null
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [],
+   "TotalActiveMarketsCount": 29,
+   "TotalDynamicMarketsCount": 0,
+   "TotalMarketsCount": 23,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "Toronto FC II vs Chattanooga FC",
+   "EventName": "Toronto FC II vs Chattanooga FC",
+   "LeagueName": "EUA - MLS Next Pro",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "246160",
+     "Name": "Toronto FC II",
+     "Country": "Canadá",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "323121812269715456",
+     "Name": "Chattanooga FC",
+     "Country": "Estados Unidos",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "Estados Unidos",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-14T23:00:00.000Z",
+   "UrlEventName": "Toronto-FC-II-vs-Chattanooga-FC",
+   "UrlLeagueName": "EUA-MLS-Next-Pro",
+   "UrlRegionName": "Estados-Unidos",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "875516620360134656",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "845960725016158208",
+   "LeagueId": "741205235494686721",
+   "LeagueOrder": 94000129,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "295841143873355776",
+   "Metadata": {
+    "HasPlayerIncidentCoverage": "false",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "US",
+   "RegionId": "227",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": false,
+    "IsCashOutEnabled": true,
+    "IsExposureEnabled": false,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "EarlyPayout": null
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [],
+   "TotalActiveMarketsCount": 29,
+   "TotalDynamicMarketsCount": 0,
+   "TotalMarketsCount": 23,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "Houston Dynamo II vs Ventura County FC",
+   "EventName": "Houston Dynamo II vs Ventura County FC",
+   "LeagueName": "EUA - MLS Next Pro",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "300662707831701504",
+     "Name": "Houston Dynamo II",
+     "Country": "Estados Unidos",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "559660255936876544",
+     "Name": "Ventura County FC",
+     "Country": "Estados Unidos",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "Estados Unidos",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-14T23:00:00.000Z",
+   "UrlEventName": "Houston-Dynamo-II-vs-Ventura-County-FC",
+   "UrlLeagueName": "EUA-MLS-Next-Pro",
+   "UrlRegionName": "Estados-Unidos",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "873746299357622272",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "738736442951626752",
+   "LeagueId": "809040415499300864",
+   "LeagueOrder": 21000001,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "1439",
+   "Metadata": {
+    "HomeShirtColorPrimary": "#000000",
+    "HasPlayerIncidentCoverage": "true",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "BR",
+   "RegionId": "29",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": true,
+    "IsCashOutEnabled": true,
+    "IsExposureEnabled": false,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "EarlyPayout": 2
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [
+    "FastMarket"
+   ],
+   "TotalActiveMarketsCount": 233,
+   "TotalDynamicMarketsCount": 70,
+   "TotalMarketsCount": 95,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "Sport Recife vs Londrina",
+   "EventName": "Sport Recife vs Londrina",
+   "LeagueName": "Brasileirão Série B",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "47782",
+     "Name": "Sport Recife",
+     "Country": "Brasil",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "73662",
+     "Name": "Londrina",
+     "Country": "Brasil",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "Brasil",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-14T23:30:00.000Z",
+   "UrlEventName": "Sport-Recife-vs-Londrina",
+   "UrlLeagueName": "Brasileirão-Série-B",
+   "UrlRegionName": "Brasil",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "871823811891478528",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "845932749700538368",
+   "LeagueId": "794096624711544832",
+   "LeagueOrder": 22000001,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "150",
+   "Metadata": {
+    "AwayShirtColorPrimary": "#008000",
+    "HasPlayerIncidentCoverage": "true",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "AR",
+   "RegionId": "11",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": true,
+    "IsCashOutEnabled": true,
+    "IsExposureEnabled": false,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "EarlyPayout": 2
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [],
+   "TotalActiveMarketsCount": 168,
+   "TotalDynamicMarketsCount": 63,
+   "TotalMarketsCount": 58,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "Racing Club vs Banfield",
+   "EventName": "Racing Club vs Banfield",
+   "LeagueName": "Argentina - Liga Profissional",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "2639",
+     "Name": "Racing Club",
+     "Country": "Internacional",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "2635",
+     "Name": "Banfield",
+     "Country": "Internacional",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "Argentina",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-14T23:30:00.000Z",
+   "UrlEventName": "Racing-Club-vs-Banfield",
+   "UrlLeagueName": "Argentina-Liga-Profissional",
+   "UrlRegionName": "Argentina",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "874523948292009984",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "845939018909949952",
+   "LeagueId": "805582566450327552",
+   "LeagueOrder": 23000001,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "197963518955122688",
+   "Metadata": {
+    "HasPlayerIncidentCoverage": "false",
+    "HomeShirtColorPrimary": "#00FFFF",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "AR",
+   "RegionId": "11",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": true,
+    "IsCashOutEnabled": true,
+    "IsExposureEnabled": false,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "EarlyPayout": null
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [],
+   "TotalActiveMarketsCount": 77,
+   "TotalDynamicMarketsCount": 30,
+   "TotalMarketsCount": 28,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "Atlético Rafaela vs Defensores de Belgrano",
+   "EventName": "Atlético Rafaela vs Defensores de Belgrano",
+   "LeagueName": "Argentina - Primeira Nacional",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "44004",
+     "Name": "Atlético Rafaela",
+     "Country": "Internacional",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "1163184",
+     "Name": "Defensores de Belgrano",
+     "Country": "Internacional",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "Argentina",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-14T23:30:00.000Z",
+   "UrlEventName": "Atlético-Rafaela-vs-Defensores-de-Belgrano",
+   "UrlLeagueName": "Argentina-Primeira-Nacional",
+   "UrlRegionName": "Argentina",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "874325430646444032",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "845932749700538368",
+   "LeagueId": "807290927063576576",
+   "LeagueOrder": 22000009,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "790",
+   "Metadata": {
+    "HomeShirtColorPrimary": "#000000",
+    "HasPlayerIncidentCoverage": "true",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "EC",
+   "RegionId": "60",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": true,
+    "IsCashOutEnabled": true,
+    "IsExposureEnabled": false,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "EarlyPayout": 2
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [],
+   "TotalActiveMarketsCount": 145,
+   "TotalDynamicMarketsCount": 65,
+   "TotalMarketsCount": 41,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "Independiente del Valle vs Delfin SC",
+   "EventName": "Independiente del Valle vs Delfin SC",
+   "LeagueName": "Equador - Serie A",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "217888",
+     "Name": "Independiente del Valle",
+     "Country": "Internacional",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "322585",
+     "Name": "Delfin SC",
+     "Country": "Equador",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "Equador",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-15T00:00:00.000Z",
+   "UrlEventName": "Independiente-del-Valle-vs-Delfin-SC",
+   "UrlLeagueName": "Equador-Serie-A",
+   "UrlRegionName": "Equador",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "875458170015985664",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "511",
+   "LeagueId": "827049596810514432",
+   "LeagueOrder": 38002301,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "1375",
+   "Metadata": {
+    "HasPlayerIncidentCoverage": "true",
+    "HomeShirtColorPrimary": "#00FFFF",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "BO",
+   "RegionId": "28",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": true,
+    "IsCashOutEnabled": true,
+    "IsExposureEnabled": false,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "EarlyPayout": null
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [],
+   "TotalActiveMarketsCount": 109,
+   "TotalDynamicMarketsCount": 59,
+   "TotalMarketsCount": 27,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "Club Bolívar vs San Antonio Bulo Bulo",
+   "EventName": "Club Bolívar vs San Antonio Bulo Bulo",
+   "LeagueName": "Bolívia - Primeira Divisão",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "2759",
+     "Name": "Club Bolívar",
+     "Country": "Bolívia",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "233534267173683200",
+     "Name": "San Antonio Bulo Bulo",
+     "Country": "Bolívia",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "Bolívia",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-15T00:00:00.000Z",
+   "UrlEventName": "Club-Bolívar-vs-San-Antonio-Bulo-Bulo",
+   "UrlLeagueName": "Bolívia-Primeira-Divisão",
+   "UrlRegionName": "Bolívia",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "875474585913757696",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "511",
+   "LeagueId": "809039759405281280",
+   "LeagueOrder": 80004500,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "6831",
+   "Metadata": {
+    "HasPlayerIncidentCoverage": "false",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "BR",
+   "RegionId": "29",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": true,
+    "IsCashOutEnabled": true,
+    "IsExposureEnabled": false,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "EarlyPayout": null
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [],
+   "TotalActiveMarketsCount": 104,
+   "TotalDynamicMarketsCount": 57,
+   "TotalMarketsCount": 28,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "Atlético Mineiro [W] vs Grêmio [W]",
+   "EventName": "Atlético Mineiro [W] vs Grêmio [W]",
+   "LeagueName": "Brasil - Brasileirão Feminino",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "642562",
+     "Name": "Atlético Mineiro [W]",
+     "Country": "Brasil",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "214401058645221376",
+     "Name": "Grêmio [W]",
+     "Country": "Brasil",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "Brasil",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-15T00:00:00.000Z",
+   "UrlEventName": "Atlético-Mineiro-[W]-vs-Grêmio-[W]",
+   "UrlLeagueName": "Brasil-Brasileirão-Feminino",
+   "UrlRegionName": "Brasil",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "874104785962635264",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "817",
+   "LeagueId": "818098211515547648",
+   "LeagueOrder": 100018500,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "4488",
+   "Metadata": {
+    "HasPlayerIncidentCoverage": "false",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "US",
+   "RegionId": "227",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": false,
+    "IsCashOutEnabled": true,
+    "IsExposureEnabled": false,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "EarlyPayout": null
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [],
+   "TotalActiveMarketsCount": 27,
+   "TotalDynamicMarketsCount": 0,
+   "TotalMarketsCount": 23,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "NJ/NY Gotham FC [W] vs Kansas City Current [W]",
+   "EventName": "NJ/NY Gotham FC [W] vs Kansas City Current [W]",
+   "LeagueName": "EUA - NWSL",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "75941",
+     "Name": "NJ/NY Gotham FC [W]",
+     "Country": "Estados Unidos",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "121777",
+     "Name": "Kansas City Current [W]",
+     "Country": "Estados Unidos",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "Estados Unidos",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-15T00:00:00.000Z",
+   "UrlEventName": "NJ-NY-Gotham-FC-[W]-vs-Kansas-City-Current-[W]",
+   "UrlLeagueName": "EUA-NWSL",
+   "UrlRegionName": "Estados-Unidos",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "874069548935254016",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "845932749700538368",
+   "LeagueId": "866914601382756352",
+   "LeagueOrder": 22000019,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "207752358007152640",
+   "Metadata": {
+    "AwayShirtColorPrimary": "#000000",
+    "HasPlayerIncidentCoverage": "false",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "MX",
+   "RegionId": "153",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": true,
+    "IsCashOutEnabled": true,
+    "IsExposureEnabled": false,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "EarlyPayout": null
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [],
+   "TotalActiveMarketsCount": 148,
+   "TotalDynamicMarketsCount": 58,
+   "TotalMarketsCount": 40,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "Correcaminos UAT vs Tapatio",
+   "EventName": "Correcaminos UAT vs Tapatio",
+   "LeagueName": "México - Liga de Expansão MX",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "72190",
+     "Name": "Correcaminos UAT",
+     "Country": "Internacional",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "950101",
+     "Name": "Tapatio",
+     "Country": "México",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "México",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-15T01:00:00.000Z",
+   "UrlEventName": "Correcaminos-UAT-vs-Tapatio",
+   "UrlLeagueName": "México-Liga-de-Expansão-MX",
+   "UrlRegionName": "México",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "874069548964552704",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "845932749700538368",
+   "LeagueId": "866914601382756352",
+   "LeagueOrder": 22000019,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "207752358007152640",
+   "Metadata": {
+    "HasPlayerIncidentCoverage": "false",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "MX",
+   "RegionId": "153",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": true,
+    "IsCashOutEnabled": true,
+    "IsExposureEnabled": false,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "EarlyPayout": null
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [],
+   "TotalActiveMarketsCount": 138,
+   "TotalDynamicMarketsCount": 48,
+   "TotalMarketsCount": 40,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "Mineros de Zacatecas vs Venados FC",
+   "EventName": "Mineros de Zacatecas vs Venados FC",
+   "LeagueName": "México - Liga de Expansão MX",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "195416",
+     "Name": "Mineros de Zacatecas",
+     "Country": "México",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "268496",
+     "Name": "Venados FC",
+     "Country": "México",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "México",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-15T01:00:00.000Z",
+   "UrlEventName": "Mineros-de-Zacatecas-vs-Venados-FC",
+   "UrlLeagueName": "México-Liga-de-Expansão-MX",
+   "UrlRegionName": "México",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "874631527731138560",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "613",
+   "LeagueId": "826469453717143552",
+   "LeagueOrder": 90002200,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "25282",
+   "Metadata": {
+    "HasPlayerIncidentCoverage": "true",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "CA",
+   "RegionId": "36",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": false,
+    "IsCashOutEnabled": true,
+    "IsExposureEnabled": false,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "EarlyPayout": null
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [],
+   "TotalActiveMarketsCount": 29,
+   "TotalDynamicMarketsCount": 0,
+   "TotalMarketsCount": 23,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "Vancouver FC vs Pacific FC",
+   "EventName": "Vancouver FC vs Pacific FC",
+   "LeagueName": "Canadá - Premier League",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "437486886844710912",
+     "Name": "Vancouver FC",
+     "Country": "Canadá",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "465975",
+     "Name": "Pacific FC",
+     "Country": "Internacional",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "Canadá",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-15T01:00:00.000Z",
+   "UrlEventName": "Vancouver-FC-vs-Pacific-FC",
+   "UrlLeagueName": "Canadá-Premier-League",
+   "UrlRegionName": "Canadá",
+   "UrlSportName": "Futebol"
+  },
+  {
+   "_id": "875650571749838848",
+   "IsLive": false,
+   "IsSuspended": false,
+   "IsTopLeague": false,
+   "LeagueGroupId": "845960725016158208",
+   "LeagueId": "868096001741971456",
+   "LeagueOrder": 94000083,
+   "LiveGameState": {
+    "ClockRunning": false,
+    "ClockDirection": 0,
+    "UpdateDate": "0001-01-01T00:00:00.000Z",
+    "GameTimeBFFGotAt": 1786740587309
+   },
+   "MarketGroups": [
+    "Main",
+    "Halves",
+    "Goals",
+    "Corners",
+    "Players",
+    "Cards",
+    "Specials",
+    "Period"
+   ],
+   "MasterLeagueId": "2864",
+   "Metadata": {
+    "HasPlayerIncidentCoverage": "false",
+    "HasVARCoverage": "true",
+    "HasIncidentCoverage": "true"
+   },
+   "RegionCode": "SV",
+   "RegionId": "204",
+   "Score": {
+    "AwayScore": "",
+    "HomeScore": "",
+    "CombinedSecondTierScores": [],
+    "AdditionalScores": {}
+   },
+   "Settings": {
+    "IsBetBuilderEnabled": false,
+    "IsCashOutEnabled": true,
+    "IsVIPExcludeEnabled": false,
+    "IsWBComboEnabled": false,
+    "IsWBSingleEnabled": false,
+    "IsEarlySettlementEnabled": true,
+    "EarlyPayout": null
+   },
+   "SportId": "1",
+   "SportOrder": 1,
+   "Tags": [],
+   "TotalActiveMarketsCount": 29,
+   "TotalDynamicMarketsCount": 0,
+   "TotalMarketsCount": 23,
+   "Type": "Fixture",
+   "IsSubstituteAvailable": false,
+   "BetslipLine": "Municipal Limeno vs Internacional Santa Tecla",
+   "EventName": "Municipal Limeno vs Internacional Santa Tecla",
+   "LeagueName": "El Salvador - Primeira Divisão",
+   "ParentSportId": null,
+   "Participants": [
+    {
+     "_id": "78512",
+     "Name": "Municipal Limeno",
+     "Country": "Internacional",
+     "VenueRole": "Home"
+    },
+    {
+     "_id": "870634008189648896",
+     "Name": "Internacional Santa Tecla",
+     "Country": "Internacional",
+     "VenueRole": "Away"
+    }
+   ],
+   "RegionName": "El Salvador",
+   "SportName": "Futebol",
+   "StartEventDate": "2026-08-15T01:00:00.000Z",
+   "UrlEventName": "Municipal-Limeno-vs-Internacional-Santa-Tecla",
+   "UrlLeagueName": "El-Salvador-Primeira-Divisão",
+   "UrlRegionName": "El-Salvador",
+   "UrlSportName": "Futebol"
+  }
+ ],
+ "meta": {
+  "limit": 500,
+  "skip": 0,
+  "hasMore": true
+ }
+}

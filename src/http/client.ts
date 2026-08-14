@@ -33,6 +33,14 @@ export interface OpcoesBusca {
   /** Cookies ja resolvidos (ex.: cf_clearance colhido pelo porteiro). */
   cookie?: string;
   timeoutMs?: number;
+  /**
+   * Corpo JSON. Presente = POST.
+   *
+   * Existe porque a plataforma CT lista os jogos por POST
+   * (`eventlist/eu/events/v2/all`). Passa pelo mesmo disjuntor por host que o
+   * GET — o que protege a casa e o host, nao o verbo.
+   */
+  corpoJson?: unknown;
 }
 
 // ------------------------------------------------------- disjuntor por host
@@ -116,11 +124,16 @@ export async function buscar(url: string, opcoes: OpcoesBusca = {}): Promise<Res
   };
   if (opcoes.cookie) headers.Cookie = opcoes.cookie;
 
+  const temCorpo = opcoes.corpoJson !== undefined;
+  if (temCorpo) headers['Content-Type'] ??= 'application/json';
+
   let ultimoErro: unknown;
 
   for (let tentativa = 1; tentativa <= TENTATIVAS; tentativa++) {
     try {
       const resp = await fetch(url, {
+        method: temCorpo ? 'POST' : 'GET',
+        body: temCorpo ? JSON.stringify(opcoes.corpoJson) : undefined,
         headers,
         signal: AbortSignal.timeout(opcoes.timeoutMs ?? TIMEOUT_MS),
       });

@@ -36,6 +36,8 @@ npm run scan:direto       # varredura única pelo pipeline direto (sem Telegram)
 npm run comparar          # Flashscore × odd direta, lado a lado
 npm run comparar -- <id>  # idem, num jogo só
 npm run divergencia       # roda as 2 fontes e grava a diferença (--seco não grava)
+npm run provar:ct         # prova de vida da plataforma CT (Bet7k), sem banco
+npm run provar:ordem -- <id>   # ordem dos participantes num jogo do Flashscore
 ```
 
 ---
@@ -79,11 +81,12 @@ e valor por `÷`. `ZA` nome da liga · `ZEE` id · `ZL` path · `AA` id do jogo 
 **Formato das odds** (`src/flashscore/odds.ts`):
 - `settings.bookmakers[].bookmaker.{id,name}` — **aninhado**, fácil errar.
 - Filtrar `bettingType === 'HOME_DRAW_AWAY'` **e** `bettingScope === 'FULL_TIME'`.
-- **A ordem dos participantes é VISITANTE primeiro, mandante depois.** Não há
-  `participantId`, `homeAway` nem `side` em lugar nenhum do payload — a ordem de
-  aparição é o único sinal, e ela é invertida em relação ao intuitivo.
-  Ficou errado até 12/08/2026 (ver "Armadilhas").
-- Nos 3 itens: 2º participante → Casa · 1º participante → Fora ·
+- **A ordem dos participantes é MANDANTE primeiro, visitante depois** — mas
+  **essa ordem já virou duas vezes** (12/08 e 14/08/2026). Não há
+  `participantId`, `homeAway` nem `side` em lugar nenhum do payload, então a
+  posição é o único sinal e a estabilidade dele não depende de nós.
+  **Não confie nesta linha: meça.** `npm run divergencia` responde em um minuto.
+- Nos 3 itens: 1º participante → Casa · 2º participante → Fora ·
   **`eventParticipantId === null` → Empate**.
 - Respeitar `active`; odd suspensa não é apostável.
 - **Não há URL de casa em lugar nenhum do payload.** `bookmaker` traz só
@@ -239,6 +242,46 @@ Não cabe no motor declarativo: a resposta é **relacional** (`events`, `markets
   (`event.competitorIds[0]` e o `competitorId` da cotação tipo 1). Discordando, o
   jogo é descartado. É a checagem que faltava do lado do Flashscore.
 
+**Plataforma CT/Sportradar — Bet7k** (`src/odds/casas/ct.ts`). Verificada ao vivo
+em 14/08/2026. É o primeiro adaptador **com estado**, porque toda chamada exige
+credencial:
+
+```
+GET  {host}/br-pt/spbkv4?operatorToken=logout  → Set-Cookie: session, authorization
+POST {host}/api/eventlist/eu/events/v2/all     → lista de jogos (sem odds)
+GET  {host}/api/eventlist/eu/markets/all?markets=<id|id|…>:ML0   → odds
+```
+
+Host da Bet7k: `prod20350-kbet-152319626.fssb.io`. Headers `Session`,
+`Authorization` e `time-area: ''` (vazio, mas presente — omitir muda a resposta).
+
+- **`operatorToken=logout` é o que emite a sessão ANÔNIMA** (`customerType:
+  "anon"`, `customerId: -1`, validade 24h). Sem ele a API responde
+  `{"statusCode":403,"message":"token expected"}` — que é 403 de aplicação, não
+  WAF, e por isso header de navegador não resolve. Foi o detalhe que fez a casa
+  parecer inviável na primeira sondagem. **Não precisa de login nem de navegador
+  headless**, então não há risco de limitação de conta pela coleta.
+- **Pré-jogo é `ML0`.** `ML39` e `ML169` são o mesmo 1X2 **ao vivo** — a
+  separação está no `marketColumns` do bundle da casa (`prelive` × `live`).
+- **A resposta de odds é objeto indexado** (`{"0":{…},"1":{…}}`), não array.
+  Tratar como array devolve vazio em silêncio.
+- **`startDate`/`endDate` são os únicos filtros de data que funcionam.**
+  `dateFrom`/`dateTo`, `dateRange` e `period` são aceitos e ignorados. O ganho é
+  de 2,37 MB para **32 KB** num dia. Conferido em 3 dias contra a lista completa
+  fatiada localmente: o filtro **nunca perde jogo** do intervalo; devolve alguns
+  a mais do dia seguinte, então o adaptador continua fatiando por dia.
+- **Sem `limit` alto a listagem trunca calada**: com 500 (o valor do site), hoje
+  + amanhã já somavam 499. A oferta inteira são ~1520 jogos.
+- **Duas fontes independentes do rótulo, e uma terceira de brinde**: `Side`
+  (1/2/3) e o sufixo do `_id` da seleção (`H`/`D`/`A`) precisam concordar, e o
+  nome do mandante tem que bater entre os **dois endpoints**. `Participants[]`
+  ainda traz `VenueRole: "Home"/"Away"` explícito — nada de inferir por ordem de
+  aparição, que é o que custou caro no Flashscore.
+- **Não expõe id Betradar.** O pareamento cai em nome + kickoff, sem o atalho
+  exato — é o ponto frágil desta casa.
+
+Prova de vida sem banco: `npm run provar:ct`.
+
 **Liga sai de graça, derivada dos jogos já pareados** (`derivarCompeticoes`).
 A Superbet não publica catálogo de torneios (`/tournaments`, `/categories`: 404),
 então parear por nome ali seria impossível — mas jogo pareado revela a liga. Usa
@@ -338,16 +381,23 @@ nível INFO — é o desenho pretendido, não um problema. Views usam
 
 ## Armadilhas já encontradas
 
-- **Mandante e visitante vinham trocados** (corrigido em 12/08/2026). O parser
-  assumia que o 1º `eventParticipantId` do payload era o mandante; é o visitante.
-  **O bug se escondia porque o ROI continuava certo**: `S` é a soma dos três
+- **Mandante e visitante trocados — já aconteceu DUAS vezes** (12/08 e
+  14/08/2026). O sinal é sempre o mesmo: comparando com as casas diretas, o
+  **empate bate exatamente** e só casa/fora trocam. Em 14/08 foram 230 de 231
+  pernas espelhadas, em 23 jogos contra 11 casas.
+  **O bug se esconde porque o ROI continua certo**: `S` é a soma dos três
   máximos, e trocar dois rótulos não muda a soma — `bestLine`, margem e alerta de
-  arbitragem seguiam corretos. Só o *rótulo* mentia, mandando apostar no mandante
-  pelo preço do visitante, o que mataria a arbitragem na execução.
-  Descoberto ao comparar com a odd direta da Superbet: 19 de 19 jogos com empate
-  idêntico e casa/fora trocados. Travado por teste que confere a regra contra o
-  payload, não só os números (`src/flashscore/parsers.test.ts`).
+  arbitragem seguem corretos. Só o *rótulo* mente, mandando apostar no mandante
+  pelo preço do visitante, o que mata a arbitragem na execução.
   **Lição: métrica agregada certa não prova rótulo certo.**
+  **Segunda lição, de 14/08: fixture não pega isto.** É captura estática, então
+  trava o código mas não percebe o payload virar — os 160 testes passavam verdes
+  com a produção invertida. O detector é `npm run divergencia`, que compara com
+  casas diretas de rótulo explícito (`VenueRole` na CT, dupla fonte no Altenar).
+  **Rodar depois de qualquer mexida no parser de odds, e de vez em quando sem
+  motivo nenhum.** `fixtures/odds-direcao.json` (Rio Ave x Porto, favorito
+  inequívoco) trava o código contra reinversão acidental, que é o que fixture
+  sabe fazer.
 - **`bestLine` precisa de 3 casas distintas** — abaixo disso o sistema direto é
   sempre silencioso, por aritmética, não por defeito. Virar `fonteDeOdds` para
   `direto` com menos de 3 adaptadores cala o robô.

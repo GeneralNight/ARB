@@ -1,0 +1,1725 @@
+{
+ "data": {
+  "findOddsByEventId": {
+   "eventId": "KWjl4hph",
+   "settings": {
+    "__typename": "ProjectBookmakerGroup",
+    "clickable": 1,
+    "clickableBookmakerLogoOddsComparison": 1,
+    "logoToTextOddsComparison": 0,
+    "showBookmakerLogoOddsComparison": 1,
+    "detailBonusCountOddsComparison": 12,
+    "bookmakers": [
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 16,
+       "name": "bet365",
+       "bonusTextColor": "FFFFFF",
+       "bonusBackgroundColor": "017B5B",
+       "bonusButtonTextColor": "000000",
+       "bonusButtonBackgroundColor": "FBE144"
+      },
+      "numOrder": 1,
+      "premiumStatusId": 1,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 574,
+       "name": "Betano.br",
+       "bonusTextColor": "FFFFFF",
+       "bonusBackgroundColor": "FF3C00",
+       "bonusButtonTextColor": "222222",
+       "bonusButtonBackgroundColor": "FFFFFF"
+      },
+      "numOrder": 2,
+      "premiumStatusId": 1,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 833,
+       "name": "Estrelabet",
+       "bonusTextColor": "FFFFFF",
+       "bonusBackgroundColor": "222222",
+       "bonusButtonTextColor": "222222",
+       "bonusButtonBackgroundColor": "FFFFFF"
+      },
+      "numOrder": 3,
+      "premiumStatusId": 1,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 933,
+       "name": "Superbet.br",
+       "bonusTextColor": "FFFFFF",
+       "bonusBackgroundColor": "F00000",
+       "bonusButtonTextColor": "FFFFFF",
+       "bonusButtonBackgroundColor": "000000"
+      },
+      "numOrder": 4,
+      "premiumStatusId": 1,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 1157,
+       "name": "1xBet.br",
+       "bonusTextColor": "ffffff",
+       "bonusBackgroundColor": "222222",
+       "bonusButtonTextColor": "222222",
+       "bonusButtonBackgroundColor": "ffffff"
+      },
+      "numOrder": 5,
+      "premiumStatusId": 1,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 863,
+       "name": "BetEsporte",
+       "bonusTextColor": "FFFFFF",
+       "bonusBackgroundColor": "222222",
+       "bonusButtonTextColor": "222222",
+       "bonusButtonBackgroundColor": "FFFFFF"
+      },
+      "numOrder": 6,
+      "premiumStatusId": 1,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 959,
+       "name": "Esportivabet",
+       "bonusTextColor": "FFFFFF",
+       "bonusBackgroundColor": "222222",
+       "bonusButtonTextColor": "222222",
+       "bonusButtonBackgroundColor": "FFFFFF"
+      },
+      "numOrder": 7,
+      "premiumStatusId": 1,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 995,
+       "name": "Betnacional",
+       "bonusTextColor": "FFFFFF",
+       "bonusBackgroundColor": "012570",
+       "bonusButtonTextColor": "FFFFFF",
+       "bonusButtonBackgroundColor": "0254D4"
+      },
+      "numOrder": 8,
+      "premiumStatusId": 1,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 1049,
+       "name": "Lotogreen",
+       "bonusTextColor": "FFFFFF",
+       "bonusBackgroundColor": "222222",
+       "bonusButtonTextColor": "222222",
+       "bonusButtonBackgroundColor": "FFFFFF"
+      },
+      "numOrder": 9,
+      "premiumStatusId": 1,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 943,
+       "name": "Betboom.br",
+       "bonusTextColor": "FFFFFF",
+       "bonusBackgroundColor": "222222",
+       "bonusButtonTextColor": "222222",
+       "bonusButtonBackgroundColor": "FFFFFF"
+      },
+      "numOrder": 10,
+      "premiumStatusId": 1,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 1069,
+       "name": "Bet7k",
+       "bonusTextColor": "FFFFFF",
+       "bonusBackgroundColor": "222222",
+       "bonusButtonTextColor": "222222",
+       "bonusButtonBackgroundColor": "FFFFFF"
+      },
+      "numOrder": 11,
+      "premiumStatusId": 1,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 953,
+       "name": "F12",
+       "bonusTextColor": "FFFFFF",
+       "bonusBackgroundColor": "222222",
+       "bonusButtonTextColor": "222222",
+       "bonusButtonBackgroundColor": "FFFFFF"
+      },
+      "numOrder": 12,
+      "premiumStatusId": 1,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 951,
+       "name": "BateuBet",
+       "bonusTextColor": "ffffff",
+       "bonusBackgroundColor": "222222",
+       "bonusButtonTextColor": "222222",
+       "bonusButtonBackgroundColor": "ffffff"
+      },
+      "numOrder": 0,
+      "premiumStatusId": 2,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 1163,
+       "name": "BetdaSorte",
+       "bonusTextColor": "ffffff",
+       "bonusBackgroundColor": "222222",
+       "bonusButtonTextColor": "222222",
+       "bonusButtonBackgroundColor": "ffffff"
+      },
+      "numOrder": 0,
+      "premiumStatusId": 2,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 429,
+       "name": "Betfair",
+       "bonusTextColor": "1D1B16",
+       "bonusBackgroundColor": "FFB218",
+       "bonusButtonTextColor": "222222",
+       "bonusButtonBackgroundColor": "FFFFFF"
+      },
+      "numOrder": 0,
+      "premiumStatusId": 2,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 999,
+       "name": "BR4Bet",
+       "bonusTextColor": "FFFFFF",
+       "bonusBackgroundColor": "222222",
+       "bonusButtonTextColor": "222222",
+       "bonusButtonBackgroundColor": "FFFFFF"
+      },
+      "numOrder": 0,
+      "premiumStatusId": 2,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 1161,
+       "name": "BrasilBet",
+       "bonusTextColor": "ffffff",
+       "bonusBackgroundColor": "222222",
+       "bonusButtonTextColor": "222222",
+       "bonusButtonBackgroundColor": "ffffff"
+      },
+      "numOrder": 0,
+      "premiumStatusId": 2,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 1177,
+       "name": "Brasildasorte",
+       "bonusTextColor": "ffffff",
+       "bonusBackgroundColor": "222222",
+       "bonusButtonTextColor": "222222",
+       "bonusButtonBackgroundColor": "ffffff"
+      },
+      "numOrder": 0,
+      "premiumStatusId": 2,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 1079,
+       "name": "Casadeapostas",
+       "bonusTextColor": "FFFFFF",
+       "bonusBackgroundColor": "222222",
+       "bonusButtonTextColor": "222222",
+       "bonusButtonBackgroundColor": "FFFFFF"
+      },
+      "numOrder": 0,
+      "premiumStatusId": 2,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 1223,
+       "name": "Galerabet",
+       "bonusTextColor": "ffffff",
+       "bonusBackgroundColor": "193660",
+       "bonusButtonTextColor": "193660",
+       "bonusButtonBackgroundColor": "ffffff"
+      },
+      "numOrder": 0,
+      "premiumStatusId": 2,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 1047,
+       "name": "Goldebet",
+       "bonusTextColor": "FFFFFF",
+       "bonusBackgroundColor": "222222",
+       "bonusButtonTextColor": "222222",
+       "bonusButtonBackgroundColor": "FFFFFF"
+      },
+      "numOrder": 0,
+      "premiumStatusId": 2,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 1091,
+       "name": "Jogo de Ouro",
+       "bonusTextColor": "FFFFFF",
+       "bonusBackgroundColor": "222222",
+       "bonusButtonTextColor": "222222",
+       "bonusButtonBackgroundColor": "FFFFFF"
+      },
+      "numOrder": 0,
+      "premiumStatusId": 2,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 935,
+       "name": "KTO.br",
+       "bonusTextColor": "FFFFFF",
+       "bonusBackgroundColor": "222222",
+       "bonusButtonTextColor": "222222",
+       "bonusButtonBackgroundColor": "FFFFFF"
+      },
+      "numOrder": 0,
+      "premiumStatusId": 2,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 955,
+       "name": "LuvaBet",
+       "bonusTextColor": "FFFFFF",
+       "bonusBackgroundColor": "222222",
+       "bonusButtonTextColor": "222222",
+       "bonusButtonBackgroundColor": "FFFFFF"
+      },
+      "numOrder": 0,
+      "premiumStatusId": 2,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 632,
+       "name": "Novibet",
+       "bonusTextColor": "222222",
+       "bonusBackgroundColor": "6DF6FF",
+       "bonusButtonTextColor": "FFFFFF",
+       "bonusButtonBackgroundColor": "222222"
+      },
+      "numOrder": 0,
+      "premiumStatusId": 2,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 1153,
+       "name": "SeguroBet",
+       "bonusTextColor": "ffffff",
+       "bonusBackgroundColor": "222222",
+       "bonusButtonTextColor": "222222",
+       "bonusButtonBackgroundColor": "ffffff"
+      },
+      "numOrder": 0,
+      "premiumStatusId": 2,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     },
+     {
+      "__typename": "ProjectBookmaker",
+      "bookmaker": {
+       "__typename": "Bookmaker",
+       "id": 783,
+       "name": "Sportingbet.br",
+       "bonusTextColor": "FFFFFF",
+       "bonusBackgroundColor": "222222",
+       "bonusButtonTextColor": "222222",
+       "bonusButtonBackgroundColor": "FFFFFF"
+      },
+      "numOrder": 0,
+      "premiumStatusId": 2,
+      "betslipPrematchOddsStatusId": 2,
+      "linkPrematchOddsType": 2
+     }
+    ]
+   },
+   "odds": [
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 953,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": false,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "7.4",
+       "opening": "9.0",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.4",
+       "opening": "1.22",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.75",
+       "opening": "5.33",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 933,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": true,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "7.1",
+       "opening": "8.6",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.42",
+       "opening": "1.24",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.75",
+       "opening": "5.65",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 1079,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": false,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "7.2",
+       "opening": "9.8",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.43",
+       "opening": "1.25",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.7",
+       "opening": "5.8",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 574,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": false,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "7.7",
+       "opening": "8.0",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.45",
+       "opening": "1.38",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.8",
+       "opening": "5.0",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 16,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": true,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "8.0",
+       "opening": "7.0",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.37",
+       "opening": "1.37",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.5",
+       "opening": "4.75",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 1091,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": false,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "6.66",
+       "opening": "8.0",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.37",
+       "opening": "1.27",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.75",
+       "opening": "5.33",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 999,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": false,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "6.66",
+       "opening": "9.0",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.35",
+       "opening": "1.22",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.5",
+       "opening": "5.33",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 632,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": false,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "7.3",
+       "opening": "7.7",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.43",
+       "opening": "1.39",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.45",
+       "opening": "4.85",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 935,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": false,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "8.0",
+       "opening": "8.0",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.38",
+       "opening": "1.38",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.5",
+       "opening": "4.5",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 1177,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": false,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "7.4",
+       "opening": "8.5",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.4",
+       "opening": "1.25",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.75",
+       "opening": "5.0",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 863,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": false,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "7.2",
+       "opening": "9.19",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.41",
+       "opening": "1.24",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.3",
+       "opening": "5.6",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 833,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": false,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "7.4",
+       "opening": "8.5",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.41",
+       "opening": "1.3",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.85",
+       "opening": "5.33",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 959,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": false,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "7.4",
+       "opening": "8.5",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.41",
+       "opening": "1.25",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.85",
+       "opening": "5.0",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 1153,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": false,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "7.0",
+       "opening": "8.6",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.38",
+       "opening": "1.27",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.6",
+       "opening": "5.3",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 1157,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": true,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "7.2",
+       "opening": "8.1",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.42",
+       "opening": "1.34",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.72",
+       "opening": "5.35",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 951,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": false,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "7.4",
+       "opening": "8.5",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.41",
+       "opening": "1.25",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.85",
+       "opening": "5.0",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 1047,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": false,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "6.66",
+       "opening": "8.5",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.35",
+       "opening": "1.25",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.5",
+       "opening": "5.0",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 955,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": false,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "7.4",
+       "opening": "9.0",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.4",
+       "opening": "1.22",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.75",
+       "opening": "5.33",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 1049,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": false,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "6.66",
+       "opening": "8.5",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.35",
+       "opening": "1.25",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.5",
+       "opening": "5.0",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 1163,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": false,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "7.3",
+       "opening": "7.6",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.39",
+       "opening": "1.31",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.55",
+       "opening": "5.0",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 995,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": false,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "8.0",
+       "opening": "10.0",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.36",
+       "opening": "1.29",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.6",
+       "opening": "5.5",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 1069,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": false,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "7.4",
+       "opening": "7.9",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.39",
+       "opening": "1.32",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.59",
+       "opening": "5.1",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 429,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": false,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "8.0",
+       "opening": "9.0",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.36",
+       "opening": "1.3",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.6",
+       "opening": "5.0",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 943,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": false,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "7.6",
+       "opening": "9.0",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.41",
+       "opening": "1.31",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.6",
+       "opening": "5.4",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 1161,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": false,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "8.0",
+       "opening": "8.0",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.4",
+       "opening": "1.33",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.6",
+       "opening": "4.9",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    },
+    {
+     "__typename": "EventOdds",
+     "bookmakerId": 1223,
+     "bettingType": "HOME_DRAW_AWAY",
+     "bettingScope": "FULL_TIME",
+     "hasLiveBettingOffers": false,
+     "bookmakerDetailBonusId": 0,
+     "odds": [
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "hMfVHdp1",
+       "value": "8.0",
+       "opening": "8.0",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": "0nbwGzFD",
+       "value": "1.4",
+       "opening": "1.33",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      },
+      {
+       "__typename": "EventOddsItem",
+       "eventParticipantId": null,
+       "value": "4.6",
+       "opening": "4.9",
+       "active": true,
+       "handicap": null,
+       "position": null,
+       "selection": null,
+       "winner": null,
+       "score": null,
+       "bothTeamsToScore": null
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

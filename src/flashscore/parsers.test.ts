@@ -87,23 +87,17 @@ describe('parseOdds', () => {
   });
 
   /**
-   * Direcao de mandante/visitante — corrigida em 12/08/2026.
+   * Direcao de mandante/visitante.
    *
    * O payload nao rotula os participantes (nao existe `participantId`,
    * `homeAway` nem `side`): a ordem de aparicao e o unico sinal, e ela e
-   * VISITANTE primeiro. A versao anterior assumia o contrario.
+   * MANDANTE primeiro.
    *
-   * A prova nao foi palpite futebolistico: comparando com a odd direta da
-   * Superbet, o proprio texto dela dizia "FC Copenhagen vence a partida" para a
-   * cotacao 1,19, enquanto este parser punha 11,00 no Copenhagen. Nos 19 jogos
-   * pareados naquela rodada, os 19 vieram com empate identico e casa/fora
-   * trocados — inversao sistematica, nao caso isolado.
-   *
-   * O erro se escondia porque `bestLine` continuava certo: S e a soma dos tres
-   * maximos, e trocar dois rotulos nao muda a soma. So o alerta mentia, mandando
-   * apostar no mandante pelo preco do visitante.
+   * Este teste trava o CODIGO contra alguem reinverter sem querer. Ele nao
+   * detecta o payload virar — fixture e captura estatica. Quem detecta isso e
+   * `npm run divergencia`, contra casas diretas de rotulo explicito.
    */
-  it('usa o SEGUNDO participante do payload como mandante', () => {
+  it('usa o PRIMEIRO participante do payload como mandante', () => {
     const linhas = (oddsRaw as any).data.findOddsByEventId.odds.filter(
       (o: any) => o.bettingType === 'HOME_DRAW_AWAY' && o.bettingScope === 'FULL_TIME',
     );
@@ -115,7 +109,7 @@ describe('parseOdds', () => {
         }
       }
     }
-    const [idVisitante, idMandante] = ordem;
+    const [idMandante, idVisitante] = ordem;
 
     const linhaBet365 = linhas.find((l: any) => l.bookmakerId === 16)!;
     const valor = (id: string | null) =>
@@ -129,11 +123,11 @@ describe('parseOdds', () => {
 
   it('mapeia casa/empate/fora nos valores esperados', () => {
     // Jogo do fixture: Platense (mandante) x Talleres Cordoba (visitante),
-    // Liga Profesional Argentina. Valores da bet365 sob a direcao corrigida.
+    // Liga Profesional Argentina.
     const bet365 = odds.casas.find((c) => c.bookmakerId === 16)!;
-    expect(bet365.casa).toBe(3.2);
+    expect(bet365.casa).toBe(2.55);
     expect(bet365.empate).toBe(2.75);
-    expect(bet365.fora).toBe(2.55);
+    expect(bet365.fora).toBe(3.2);
   });
 
   it('a inversao NAO muda a margem — e por isso o bug ficou escondido', () => {
@@ -160,5 +154,46 @@ describe('parseOdds', () => {
     expect(linha.margemPct).toBeGreaterThan(0);
     const ids = [linha.casa.bookmakerId, linha.empate.bookmakerId, linha.fora.bookmakerId];
     expect(new Set(ids).size).toBe(3);
+  });
+});
+
+/**
+ * Direcao ancorada em realidade, nao em convencao.
+ *
+ * O teste acima prova que o parser e coerente com a ordem do payload — mas
+ * seria igualmente verde com a regra invertida, porque so compara o parser
+ * consigo mesmo. Este aqui e diferente: usa um jogo cujo favorito nao admite
+ * discussao, entao ele so passa se o rotulo estiver CERTO.
+ *
+ * Rio Ave x Porto (Liga Portugal, capturado em 14/08/2026): o Porto e o
+ * visitante, e nas 26 casas ele paga ~1,40 contra ~7,40 do Rio Ave. Se o
+ * parser puser o mandante como favorito, este teste cai.
+ *
+ * Fixture enxuto de proposito: so as linhas 1X2 tempo integral mais o
+ * `settings`. E captura real, nao mock — o payload cheio (~420 mercados,
+ * 900 KB) continua em `odds-sample.json`, que e quem vigia o formato.
+ */
+describe('parseOdds — direcao contra jogo de favorito obvio', () => {
+  const direcaoRaw = JSON.parse(readFileSync('fixtures/odds-direcao.json', 'utf8'));
+  const odds = parseOdds(direcaoRaw)!;
+
+  it('le o jogo inteiro', () => {
+    expect(odds.eventId).toBe('KWjl4hph');
+    expect(odds.casas).toHaveLength(26);
+  });
+
+  it('poe o visitante favorito como FORA, nao como casa', () => {
+    const bet365 = odds.casas.find((c) => c.bookmakerId === 16)!;
+    expect(bet365.casa).toBe(8.0); // Rio Ave, mandante azarao
+    expect(bet365.empate).toBe(4.5);
+    expect(bet365.fora).toBe(1.37); // Porto, visitante favorito
+  });
+
+  it('em TODAS as casas o mandante paga mais que o visitante', () => {
+    // Propriedade, nao valor: sobrevive a odd se mexer entre capturas, e e
+    // exatamente o que a inversao quebraria.
+    for (const c of odds.casas) {
+      expect(c.casa).toBeGreaterThan(c.fora);
+    }
   });
 });
